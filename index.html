@@ -3189,8 +3189,20 @@
 
         // Load Checklist Owners
         function loadChecklistOwners() {
-            const inputs = document.querySelectorAll('.checklist-owner-input');
-            inputs.forEach((input, index) => {
+            const items = document.querySelectorAll('.checklist-item');
+            const ownerInputs = document.querySelectorAll('.checklist-owner-input');
+
+            // Restore checked state
+            items.forEach((item, index) => {
+                if (appData.checklist && appData.checklist[index]) {
+                    item.classList.add('checked');
+                } else {
+                    item.classList.remove('checked');
+                }
+            });
+
+            // Restore owner names
+            ownerInputs.forEach((input, index) => {
                 if (appData.checklistOwners && appData.checklistOwners[index]) {
                     input.value = appData.checklistOwners[index];
                 }
