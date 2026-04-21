@@ -2846,7 +2846,7 @@
             // Update toggle button
             const toggleBtn = document.getElementById('langToggle');
             if (toggleBtn) {
-                toggleBtn.innerHTML = currentLang === 'zh' ? '🌐 EN' : '🌐 中文';
+                toggleBtn.innerHTML = currentLang === 'zh' ? '🌐 CN' : '🌐 EN';
             }
 
             // Update page title
@@ -3202,11 +3202,9 @@
                 }
             });
 
-            // Restore owner names
+            // Restore owner names (clear first, then apply saved values)
             ownerInputs.forEach((input, index) => {
-                if (appData.checklistOwners && appData.checklistOwners[index]) {
-                    input.value = appData.checklistOwners[index];
-                }
+                input.value = (appData.checklistOwners && appData.checklistOwners[index]) ? appData.checklistOwners[index] : '';
             });
         }
 
@@ -4253,13 +4251,15 @@
             updateChecklistProgress();
             loadChecklistOwners();
 
-            // Promo projects checkboxes
+            // Promo projects checkboxes — reset all first, then re-apply saved state
+            document.querySelectorAll('#promoProjects input[type="checkbox"]').forEach(cb => cb.checked = false);
             appData.promoProjects.forEach(p => {
                 const checkbox = document.querySelector(`#promoProjects input[value="${p}"]`);
                 if (checkbox) checkbox.checked = true;
             });
 
             // Age groups checkboxes
+            document.querySelectorAll('#ageGroups input[type="checkbox"]').forEach(cb => cb.checked = false);
             appData.ageGroups.forEach(a => {
                 const checkbox = document.querySelector(`#ageGroups input[value="${a}"]`);
                 if (checkbox) checkbox.checked = true;
@@ -4644,19 +4644,23 @@
                     projects: JSON.parse(JSON.stringify(LAS_VEGAS_DATA.projects)),
                     prizes: JSON.parse(JSON.stringify(LAS_VEGAS_DATA.prizes)),
                     budget: JSON.parse(JSON.stringify(LAS_VEGAS_DATA.budget)),
-                    leads: [],
-                    reception: [],
-                    vips: [],
-                    raffleHosts: [],
+                    leads: JSON.parse(JSON.stringify(LAS_VEGAS_DATA.leads || [])),
+                    reception: JSON.parse(JSON.stringify(LAS_VEGAS_DATA.reception || [])),
+                    vips: JSON.parse(JSON.stringify(LAS_VEGAS_DATA.vips || [])),
+                    raffleHosts: JSON.parse(JSON.stringify(LAS_VEGAS_DATA.raffleHosts || [])),
                     posters: [],
                     videos: [],
                     banners: [],
                     socialPosts: [],
                     checklist: Array(15).fill(false),
+                    checklistOwners: Array(15).fill(''),
                     promoProjects: [...LAS_VEGAS_DATA.promoProjects],
                     ageGroups: [...LAS_VEGAS_DATA.ageGroups],
                     social: { instagram: '', facebook: '', youtube: '', xiaohongshu: '' },
-                    goals: { ...LAS_VEGAS_DATA.goals }
+                    goals: { ...LAS_VEGAS_DATA.goals },
+                    staff: { chiefLead: '', host: '' },
+                    discounts: { type: '课程报名', amount: '20% OFF', valid: '仅限当日' },
+                    ageStructure: { age36: { count: 12, percent: 14 }, age714: { count: 65, percent: 76 }, age15: { count: 10, percent: 10 } }
                 };
                 saveData();
                 renderAll();
