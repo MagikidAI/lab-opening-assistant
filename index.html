@@ -1948,7 +1948,7 @@
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
                     <label class="form-label" data-i18n="email">邮箱</label>
-                    <input type="email" class="form-input" id="guestEmail" placeholder="email@example.com">
+                    <input type="email" class="form-input" id="guestEmailInput" placeholder="email@example.com">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
                     <label class="form-label" data-i18n="bio">简介</label>
@@ -3023,6 +3023,10 @@
             reception: [],
             vips: [],
             raffleHosts: [],
+            staff: {
+                chiefLead: '',
+                host: ''
+            },
             posters: [],
             videos: [],
             banners: [],
@@ -3031,6 +3035,11 @@
             checklistOwners: Array(15).fill(''),
             promoProjects: [],
             ageGroups: [],
+            ageStructure: {
+                age36: { count: 12, percent: 14 },
+                age714: { count: 65, percent: 76 },
+                age15: { count: 10, percent: 10 }
+            },
             social: {
                 instagram: '',
                 facebook: '',
@@ -3042,6 +3051,11 @@
                 vexElementary: '1个',
                 vexMiddle: '1个',
                 other: ''
+            },
+            discounts: {
+                type: '课程报名',
+                amount: '20% OFF',
+                valid: '仅限当日'
             }
         };
 
@@ -3259,7 +3273,7 @@
         function addGuest() {
             const name = document.getElementById('guestName').value;
             const title = document.getElementById('guestTitle').value;
-            const email = document.getElementById('guestEmail').value;
+            const email = document.getElementById('guestEmailInput').value;
             const bio = document.getElementById('guestBio').value;
             const type = document.getElementById('guestType').value;
 
@@ -3285,7 +3299,7 @@
             const g = appData.guests[index];
             document.getElementById('guestName').value = g.name;
             document.getElementById('guestTitle').value = g.title || '';
-            document.getElementById('guestEmail').value = g.email || '';
+            document.getElementById('guestEmailInput').value = g.email || '';
             document.getElementById('guestBio').value = g.bio || '';
             document.getElementById('guestType').value = g.type || 'other';
             editingGuestIndex = index;
@@ -4196,6 +4210,19 @@
             document.getElementById('vexMiddle').value = appData.goals.vexMiddle || '';
             document.getElementById('otherGoals').value = appData.goals.other || '';
 
+            // Staff
+            if (appData.staff) {
+                document.getElementById('chiefLead').value = appData.staff.chiefLead || '';
+                document.getElementById('host').value = appData.staff.host || '';
+            }
+
+            // Discounts
+            if (appData.discounts) {
+                document.getElementById('discountType').value = appData.discounts.type || '课程报名';
+                document.getElementById('discountAmount').value = appData.discounts.amount || '20% OFF';
+                document.getElementById('discountValid').value = appData.discounts.valid || '仅限当日';
+            }
+
             renderHosts();
             renderGuests();
             renderTimeline();
@@ -4224,6 +4251,16 @@
                 const checkbox = document.querySelector(`#ageGroups input[value="${a}"]`);
                 if (checkbox) checkbox.checked = true;
             });
+
+            // Age structure inputs
+            if (appData.ageStructure) {
+                document.getElementById('age36Count').value   = appData.ageStructure.age36?.count   ?? 12;
+                document.getElementById('age36Percent').value = appData.ageStructure.age36?.percent ?? 14;
+                document.getElementById('age714Count').value   = appData.ageStructure.age714?.count  ?? 65;
+                document.getElementById('age714Percent').value = appData.ageStructure.age714?.percent ?? 76;
+                document.getElementById('age15Count').value   = appData.ageStructure.age15?.count   ?? 10;
+                document.getElementById('age15Percent').value = appData.ageStructure.age15?.percent ?? 10;
+            }
         }
 
         // Clear Modal
@@ -4258,9 +4295,23 @@
             appData.goals.vexMiddle = document.getElementById('vexMiddle').value;
             appData.goals.other = document.getElementById('otherGoals').value;
 
+            appData.staff.chiefLead = document.getElementById('chiefLead').value;
+            appData.staff.host = document.getElementById('host').value;
+
+            appData.discounts.type = document.getElementById('discountType').value;
+            appData.discounts.amount = document.getElementById('discountAmount').value;
+            appData.discounts.valid = document.getElementById('discountValid').value;
+
             // Collect checkboxes
             appData.promoProjects = Array.from(document.querySelectorAll('#promoProjects input:checked')).map(i => i.value);
             appData.ageGroups = Array.from(document.querySelectorAll('#ageGroups input:checked')).map(i => i.value);
+
+            // Collect age structure
+            appData.ageStructure = {
+                age36:  { count: parseInt(document.getElementById('age36Count').value)  || 0, percent: parseFloat(document.getElementById('age36Percent').value)  || 0 },
+                age714: { count: parseInt(document.getElementById('age714Count').value) || 0, percent: parseFloat(document.getElementById('age714Percent').value) || 0 },
+                age15:  { count: parseInt(document.getElementById('age15Count').value)  || 0, percent: parseFloat(document.getElementById('age15Percent').value)  || 0 }
+            };
 
             localStorage.setItem('magikidLabAssistant', JSON.stringify(appData));
         }
@@ -4297,7 +4348,7 @@
                 try {
                     const parsed = JSON.parse(e.target.result);
                     appData = { ...appData, ...parsed };
-                    localStorage.setItem('labOpeningData', JSON.stringify(appData));
+                    localStorage.setItem('magikidLabAssistant', JSON.stringify(appData));
                     location.reload();
                 } catch (err) {
                     alert('文件格式错误，请上传有效的 JSON 文件。');
