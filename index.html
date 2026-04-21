@@ -114,16 +114,15 @@
         }
 
         .logo-icon {
-            width: 52px;
             height: 52px;
-            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-cyan-dim) 100%);
-            border-radius: 12px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 0 20px var(--accent-cyan-glow), inset 0 0 15px rgba(255, 255, 255, 0.1);
-            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        .logo-icon img {
+            height: 52px;
+            width: auto;
+            object-fit: contain;
         }
 
         @keyframes pulse-glow {
@@ -1233,7 +1232,7 @@
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <div class="logo-icon">🎓</div>
+                <div class="logo-icon"><img src="https://media.magikidlab.com/new/common/logo/magikid_robotics_logo.png" alt="MAGIKID Robotics Logo"></div>
                 <div class="logo-text">
                     <h1 data-i18n="appSubtitleHeader">MAGIKID Lab 开业助手</h1>
                     <span>Opening Assistant</span>
@@ -1266,9 +1265,10 @@
                 <button class="btn btn-secondary" onclick="exportData()">
                     <i class="fas fa-download"></i> <span class="btn-export" data-i18n="export">导出</span>
                 </button>
-                <button class="btn btn-primary" onclick="saveData()">
-                    <i class="fas fa-save"></i> <span class="btn-save" data-i18n="save">保存</span>
+                <button class="btn btn-primary" onclick="document.getElementById('loadFileInput').click()">
+                    <i class="fas fa-folder-open"></i> <span class="btn-load" data-i18n="load">载入</span>
                 </button>
+                <input type="file" id="loadFileInput" accept=".json" style="display:none" onchange="loadFromFile(this)">
             </div>
         </div>
     </header>
@@ -2343,7 +2343,7 @@
                 addProject: '添加项目',
                 addPrize: '添加奖品',
                 addBudget: '添加预算项',
-                save: '保存',
+                load: '载入',
                 export: '导出',
                 preset: '预设',
                 achievements: '成就',
@@ -2558,7 +2558,7 @@
                 addProject: 'Add Project',
                 addPrize: 'Add Prize',
                 addBudget: 'Add Budget Item',
-                save: 'Save',
+                load: 'Load',
                 export: 'Export',
                 preset: 'Preset',
                 achievements: 'Achievements',
@@ -4287,6 +4287,24 @@
             a.download = `lab-opening-${appData.lab.name || 'assistant'}-${new Date().toISOString().split('T')[0]}.json`;
             a.click();
             URL.revokeObjectURL(url);
+        }
+
+        function loadFromFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    appData = { ...appData, ...parsed };
+                    localStorage.setItem('labOpeningData', JSON.stringify(appData));
+                    location.reload();
+                } catch (err) {
+                    alert('文件格式错误，请上传有效的 JSON 文件。');
+                }
+            };
+            reader.readAsText(file);
+            input.value = '';
         }
 
         // Export PDF
