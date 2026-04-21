@@ -1235,7 +1235,7 @@
             <div class="logo">
                 <div class="logo-icon">🎓</div>
                 <div class="logo-text">
-                    <h1>MAGIKID Lab 开业助手</h1>
+                    <h1 data-i18n="appSubtitleHeader">MAGIKID Lab 开业助手</h1>
                     <span>Opening Assistant</span>
                 </div>
             </div>
@@ -1248,26 +1248,26 @@
                         <option value="frisco">🏡 Frisco Lab</option>
                         <option value="shanghai">🌆 Shanghai Lab</option>
                         <option value="wuzhen">🏯 Wuzhen Lab</option>
-                        <option value="new">➕ 添加新Lab</option>
+                        <option value="new" data-i18n="addNewLab">➕ 添加新Lab</option>
                     </select>
                 </div>
-                <button class="btn btn-secondary" onclick="loadSampleData()" title="预设数据">
-                    <i class="fas fa-magic"></i> <span class="btn-preset">预设</span>
+                <button class="btn btn-secondary" onclick="loadSampleData()" title="预设数据" data-i18n-title="presetDataTitle">
+                    <i class="fas fa-magic"></i> <span class="btn-preset" data-i18n="preset">预设</span>
                 </button>
                 <button class="btn btn-secondary" onclick="showAchievements()" title="MAGIKID成就">
                     <i class="fas fa-trophy"></i>
                 </button>
                 <button class="btn btn-secondary" id="langToggle" onclick="toggleLanguage()" style="font-weight: 600; min-width: 70px;">
-                    🌐 <span class="btn-lang">EN</span>
+                    🌐 <span class="btn-lang" data-i18n-lang>EN</span>
                 </button>
                 <button class="btn btn-cyan" onclick="exportPDF()">
                     <i class="fas fa-file-pdf"></i> PDF
                 </button>
                 <button class="btn btn-secondary" onclick="exportData()">
-                    <i class="fas fa-download"></i> <span class="btn-export">导出</span>
+                    <i class="fas fa-download"></i> <span class="btn-export" data-i18n="export">导出</span>
                 </button>
                 <button class="btn btn-primary" onclick="saveData()">
-                    <i class="fas fa-save"></i> <span class="btn-save">保存</span>
+                    <i class="fas fa-save"></i> <span class="btn-save" data-i18n="save">保存</span>
                 </button>
             </div>
         </div>
@@ -1283,7 +1283,7 @@
                 </div>
                 <div class="quick-stat-info">
                     <div class="number" id="daysLeft">26</div>
-                    <div class="label">天后开业</div>
+                    <div class="label" data-i18n="daysLeft">天后开业</div>
                 </div>
             </div>
             <div class="quick-stat">
@@ -1292,7 +1292,7 @@
                 </div>
                 <div class="quick-stat-info">
                     <div class="number" id="guestCount">0</div>
-                    <div class="label">已邀请嘉宾</div>
+                    <div class="label" data-i18n="guests">已邀请嘉宾</div>
                 </div>
             </div>
             <div class="quick-stat">
@@ -1301,7 +1301,7 @@
                 </div>
                 <div class="quick-stat-info">
                     <div class="number" id="taskProgress">0%</div>
-                    <div class="label">准备进度</div>
+                    <div class="label" data-i18n="progress">准备进度</div>
                 </div>
             </div>
             <div class="quick-stat">
@@ -1310,7 +1310,7 @@
                 </div>
                 <div class="quick-stat-info">
                     <div class="number" id="totalBudget">$0</div>
-                    <div class="label">预算总计</div>
+                    <div class="label" data-i18n="totalBudget">预算总计</div>
                 </div>
             </div>
         </div>
@@ -1318,25 +1318,25 @@
         <!-- Section 1: Lab Info -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-building"></i> Lab 基本信息</h2>
+                <h2><i class="fas fa-building"></i> <span data-i18n="labBasicInfo">Lab 基本信息</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label class="form-label">Lab 名称</label>
+                        <label class="form-label" data-i18n="labName">Lab 名称</label>
                         <input type="text" class="form-input" id="labName" placeholder="例如：MAGIKID Las Vegas Lab">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">开业日期</label>
+                        <label class="form-label" data-i18n="openingDate">开业日期</label>
                         <input type="date" class="form-input" id="openingDate" value="2026-05-16">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Lab 地址</label>
+                        <label class="form-label" data-i18n="labAddress">Lab 地址</label>
                         <input type="text" class="form-input" id="labAddress" placeholder="详细地址">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">联系电话</label>
+                        <label class="form-label" data-i18n="labPhone">联系电话</label>
                         <input type="tel" class="form-input" id="labPhone" placeholder="联系方式">
                     </div>
                 </div>
@@ -1346,7 +1346,7 @@
         <!-- Section 2: Lab 主理人 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-user-tie"></i> Lab 主理人</h2>
+                <h2><i class="fas fa-user-tie"></i> <span data-i18n="labHost">Lab 主理人</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
@@ -1354,7 +1354,7 @@
                     <!-- Dynamic content -->
                 </div>
                 <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="openModal('hostModal')">
-                    <i class="fas fa-plus"></i> 添加主理人
+                    <i class="fas fa-plus"></i> <span data-i18n="addHost">添加主理人</span>
                 </button>
             </div>
         </div>
@@ -1362,7 +1362,7 @@
         <!-- Section 3: 活动流程 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-clock"></i> 活动流程</h2>
+                <h2><i class="fas fa-clock"></i> <span data-i18n="activityFlow">活动流程</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
@@ -1370,7 +1370,7 @@
                     <!-- Dynamic timeline -->
                 </div>
                 <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="openModal('timelineModal')">
-                    <i class="fas fa-plus"></i> 添加流程
+                    <i class="fas fa-plus"></i> <span data-i18n="addTimeline">添加流程</span>
                 </button>
             </div>
         </div>
@@ -1378,14 +1378,14 @@
         <!-- Section 4: 嘉宾管理 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-address-book"></i> 嘉宾管理</h2>
+                <h2><i class="fas fa-address-book"></i> <span data-i18n="guestManagement">嘉宾管理</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
                 <div class="tabs">
-                    <button class="tab-btn active" onclick="switchTab(this, 'guestList')">嘉宾列表</button>
-                    <button class="tab-btn" onclick="switchTab(this, 'guestImport')">批量导入</button>
-                    <button class="tab-btn" onclick="switchTab(this, 'guestEmail')">邮件群发</button>
+                    <button class="tab-btn active" onclick="switchTab(this, 'guestList')" data-i18n="guestList">嘉宾列表</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'guestImport')" data-i18n="guestImport">批量导入</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'guestEmail')" data-i18n="guestEmail">邮件群发</button>
                 </div>
 
                 <div id="guestList" class="tab-content active">
@@ -1393,24 +1393,24 @@
                         <!-- Dynamic guest list -->
                     </div>
                     <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="openModal('guestModal')">
-                        <i class="fas fa-plus"></i> 添加嘉宾
+                        <i class="fas fa-plus"></i> <span data-i18n="addGuest">添加嘉宾</span>
                     </button>
                 </div>
 
                 <div id="guestImport" class="tab-content">
                     <div class="import-section">
                         <i class="fas fa-file-import"></i>
-                        <p>拖拽文件到此处或点击上传</p>
+                        <p data-i18n="dragFileHere">拖拽文件到此处或点击上传</p>
                         <input type="file" accept=".csv,.xlsx,.txt" style="display: none;" id="fileImport" onchange="handleFileImport(this)">
                         <button class="btn btn-primary" onclick="document.getElementById('fileImport').click()">
-                            <i class="fas fa-upload"></i> 选择文件
+                            <i class="fas fa-upload"></i> <span data-i18n="chooseFile">选择文件</span>
                         </button>
                     </div>
                     <div class="form-group" style="margin-top: 1rem;">
-                        <label class="form-label">或粘贴邮箱列表（每行一个）</label>
+                        <label class="form-label" data-i18n="pasteEmailList">或粘贴邮箱列表（每行一个）</label>
                         <textarea class="form-textarea" id="emailPaste" placeholder="email1@example.com&#10;email2@example.com&#10;email3@example.com"></textarea>
                         <button class="btn btn-cyan" style="margin-top: 0.75rem;" onclick="importEmails()">
-                            <i class="fas fa-plus"></i> 导入邮箱
+                            <i class="fas fa-plus"></i> <span data-i18n="importEmail">导入邮箱</span>
                         </button>
                     </div>
                     <div id="importPreview" class="item-list" style="margin-top: 1rem;"></div>
@@ -1418,11 +1418,11 @@
 
                 <div id="guestEmail" class="tab-content">
                     <div class="form-group">
-                        <label class="form-label">邮件主题</label>
+                        <label class="form-label" data-i18n="emailSubjectLabel">邮件主题</label>
                         <input type="text" class="form-input" id="emailSubject" placeholder="MAGIKID Lab 开业典礼邀请函">
                     </div>
                     <div class="form-group" style="margin-top: 1rem;">
-                        <label class="form-label">邮件内容预览</label>
+                        <label class="form-label" data-i18n="emailPreviewLabel">邮件内容预览</label>
                         <div class="email-preview" id="emailPreview">
                             <div class="email-header">
                                 <div class="email-logo">MAGIKID</div>
@@ -1439,7 +1439,7 @@
                         </div>
                     </div>
                     <button class="btn btn-primary" style="margin-top: 1rem;" onclick="copyEmailTemplate()">
-                        <i class="fas fa-copy"></i> 复制邮件模板
+                        <i class="fas fa-copy"></i> <span data-i18n="copyEmailTemplate">复制邮件模板</span>
                     </button>
                 </div>
             </div>
@@ -1448,7 +1448,7 @@
         <!-- Section 5: 互动体验项目 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-gamepad"></i> 互动体验项目</h2>
+                <h2><i class="fas fa-gamepad"></i> <span data-i18n="interactiveProjects">互动体验项目</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
@@ -1456,7 +1456,7 @@
                     <!-- Dynamic projects -->
                 </div>
                 <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="openModal('projectModal')">
-                    <i class="fas fa-plus"></i> 添加项目
+                    <i class="fas fa-plus"></i> <span data-i18n="addProject">添加项目</span>
                 </button>
             </div>
         </div>
@@ -1464,13 +1464,13 @@
         <!-- Section 6: 奖品设置 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-gift"></i> 奖品设置</h2>
+                <h2><i class="fas fa-gift"></i> <span data-i18n="prizes">奖品设置</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
                 <div class="tabs">
-                    <button class="tab-btn active" onclick="switchTab(this, 'rafflePrizes')">奖品设置</button>
-                    <button class="tab-btn" onclick="switchTab(this, 'discountOffers')">当日优惠</button>
+                    <button class="tab-btn active" onclick="switchTab(this, 'rafflePrizes')" data-i18n="rafflePrizesTab">奖品设置</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'discountOffers')" data-i18n="discountTab">当日优惠</button>
                 </div>
 
                 <div id="rafflePrizes" class="tab-content active">
@@ -1478,22 +1478,22 @@
                         <!-- Dynamic prizes -->
                     </div>
                     <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="openModal('prizeModal')">
-                        <i class="fas fa-plus"></i> 添加奖品
+                        <i class="fas fa-plus"></i> <span data-i18n="addPrize">添加奖品</span>
                     </button>
                 </div>
 
                 <div id="discountOffers" class="tab-content">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label class="form-label">优惠类型</label>
+                            <label class="form-label" data-i18n="discountType">优惠类型</label>
                             <input type="text" class="form-input" id="discountType" value="课程报名">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">折扣力度</label>
+                            <label class="form-label" data-i18n="discountAmount">折扣力度</label>
                             <input type="text" class="form-input" id="discountAmount" value="20% OFF">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">有效期</label>
+                            <label class="form-label" data-i18n="discountValid">有效期</label>
                             <input type="text" class="form-input" id="discountValid" value="仅限当日">
                         </div>
                     </div>
@@ -1504,22 +1504,22 @@
         <!-- Section 7: 推广项目 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-rocket"></i> 推广项目</h2>
+                <h2><i class="fas fa-rocket"></i> <span data-i18n="promoProjects">推广项目</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
                 <div class="checkbox-grid" id="promoProjects">
-                    <label class="checkbox-item"><input type="checkbox" value="robotics"> 机器人小班课</label>
-                    <label class="checkbox-item"><input type="checkbox" value="ai-camp"> AI机器人夏令营</label>
-                    <label class="checkbox-item"><input type="checkbox" value="vex-iq"> VEX IQ 比赛训练</label>
-                    <label class="checkbox-item"><input type="checkbox" value="nasa"> NASA比赛筹备</label>
-                    <label class="checkbox-item"><input type="checkbox" value="stanford"> 斯坦福比赛筹备</label>
-                    <label class="checkbox-item"><input type="checkbox" value="vex-ai"> VEX AI比赛训练</label>
-                    <label class="checkbox-item"><input type="checkbox" value="ioai"> 奥林匹克AI课程</label>
-                    <label class="checkbox-item"><input type="checkbox" value="private"> 私教课</label>
-                    <label class="checkbox-item"><input type="checkbox" value="birthday"> 生日派对</label>
-                    <label class="checkbox-item"><input type="checkbox" value="adult"> 成年人课程</label>
-                    <label class="checkbox-item"><input type="checkbox" value="senior"> Senior课程</label>
+                    <label class="checkbox-item"><input type="checkbox" value="robotics"> <span data-i18n="prog_robotics">机器人小班课</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="ai-camp"> <span data-i18n="prog_ai-camp">AI机器人夏令营</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="vex-iq"> <span data-i18n="prog_vex-iq">VEX IQ 比赛训练</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="nasa"> <span data-i18n="prog_nasa">NASA比赛筹备</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="stanford"> <span data-i18n="prog_stanford">斯坦福比赛筹备</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="vex-ai"> <span data-i18n="prog_vex-ai">VEX AI比赛训练</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="ioai"> <span data-i18n="prog_ioai">奥林匹克AI课程</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="private"> <span data-i18n="prog_private">私教课</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="birthday"> <span data-i18n="prog_birthday">生日派对</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="adult"> <span data-i18n="prog_adult">成年人课程</span></label>
+                    <label class="checkbox-item"><input type="checkbox" value="senior"> <span data-i18n="prog_senior">Senior课程</span></label>
                 </div>
             </div>
         </div>
@@ -1527,18 +1527,18 @@
         <!-- Section 8: 学生年龄结构 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-child"></i> 学生年龄结构</h2>
+                <h2><i class="fas fa-child"></i> <span data-i18n="ageGroups">学生年龄结构</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
                 <div class="age-structure">
                     <div class="age-row" data-age="3-6">
                         <div class="age-label">
-                            <span class="age-range">3-6岁</span>
+                        <span class="age-range" data-i18n="age36">3-6岁</span>
                         </div>
                         <div class="age-input-group">
                             <input type="number" class="form-input age-count" id="age36Count" min="0" value="12">
-                            <span class="input-unit">人</span>
+                            <span class="input-unit" data-i18n="personUnit">人</span>
                         </div>
                         <div class="age-input-group">
                             <input type="number" class="form-input age-percent" id="age36Percent" min="0" max="100" step="0.1" value="14">
@@ -1550,11 +1550,11 @@
                     </div>
                     <div class="age-row" data-age="7-14">
                         <div class="age-label">
-                            <span class="age-range">7-14岁</span>
+                        <span class="age-range" data-i18n="age714">7-14岁</span>
                         </div>
                         <div class="age-input-group">
                             <input type="number" class="form-input age-count" id="age714Count" min="0" value="65">
-                            <span class="input-unit">人</span>
+                            <span class="input-unit" data-i18n="personUnit">人</span>
                         </div>
                         <div class="age-input-group">
                             <input type="number" class="form-input age-percent" id="age714Percent" min="0" max="100" step="0.1" value="76">
@@ -1566,11 +1566,11 @@
                     </div>
                     <div class="age-row" data-age="15+">
                         <div class="age-label">
-                            <span class="age-range">15岁以上</span>
+                        <span class="age-range" data-i18n="age15">15岁以上</span>
                         </div>
                         <div class="age-input-group">
                             <input type="number" class="form-input age-count" id="age15Count" min="0" value="10">
-                            <span class="input-unit">人</span>
+                            <span class="input-unit" data-i18n="personUnit">人</span>
                         </div>
                         <div class="age-input-group">
                             <input type="number" class="form-input age-percent" id="age15Percent" min="0" max="100" step="0.1" value="10">
@@ -1581,9 +1581,9 @@
                         </div>
                     </div>
                     <div class="age-total">
-                        <span class="total-label">总计</span>
+                        <span class="total-label" data-i18n="totalLabel">总计</span>
                         <span class="total-count" id="totalStudents">87</span>
-                        <span class="total-unit">人</span>
+                        <span class="total-unit" data-i18n="personUnit">人</span>
                     </div>
                 </div>
             </div>
@@ -1592,51 +1592,51 @@
         <!-- Section 9: 人员安排 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-users-cog"></i> 人员安排</h2>
+                <h2><i class="fas fa-users-cog"></i> <span data-i18n="staffArrangement">人员安排</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label class="form-label"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> 总负责人</label>
+                        <label class="form-label"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> <span data-i18n="chiefLead">总负责人</span></label>
                         <input type="text" class="form-input" id="chiefLead" placeholder="负责人姓名">
                     </div>
                     <div class="form-group">
-                        <label class="form-label"><i class="fas fa-microphone" style="color: var(--accent-cyan);"></i> 主持人</label>
+                        <label class="form-label"><i class="fas fa-microphone" style="color: var(--accent-cyan);"></i> <span data-i18n="host">主持人</span></label>
                         <input type="text" class="form-input" id="host" placeholder="主持人姓名">
                     </div>
                 </div>
 
-                <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary);">Project 负责人（4人）</h4>
+                <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary);" data-i18n="projectLeadTitle">Project 负责人（4人）</h4>
                 <div class="item-list" id="projectLeadList">
                     <!-- Dynamic project leads -->
                 </div>
                 <button class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;" onclick="openModal('leadModal')">
-                    <i class="fas fa-plus"></i> 添加负责人
+                    <i class="fas fa-plus"></i> <span data-i18n="addLead">添加负责人</span>
                 </button>
 
-                <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary);">客户沟通接待（2人）</h4>
+                <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary);" data-i18n="receptionTitle">客户沟通接待（2人）</h4>
                 <div class="item-list" id="receptionList">
                     <!-- Dynamic reception -->
                 </div>
                 <button class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;" onclick="openModal('receptionModal')">
-                    <i class="fas fa-plus"></i> 添加接待人员
+                    <i class="fas fa-plus"></i> <span data-i18n="addReception">添加接待人员</span>
                 </button>
 
-                <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary);">VIP 接待</h4>
+                <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary);" data-i18n="vipReception">VIP 接待</h4>
                 <div class="item-list" id="vipList">
                     <!-- Dynamic VIP -->
                 </div>
                 <button class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;" onclick="openModal('vipModal')">
-                    <i class="fas fa-plus"></i> 添加VIP接待
+                    <i class="fas fa-plus"></i> <span data-i18n="addVIP">添加VIP接待</span>
                 </button>
 
-                <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary);">抽奖嘉宾</h4>
+                <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary);" data-i18n="raffleHost">抽奖嘉宾</h4>
                 <div class="item-list" id="raffleHostList">
                     <!-- Dynamic raffle hosts -->
                 </div>
                 <button class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;" onclick="openModal('raffleModal')">
-                    <i class="fas fa-plus"></i> 添加抽奖嘉宾
+                    <i class="fas fa-plus"></i> <span data-i18n="addRaffleGuest">添加抽奖嘉宾</span>
                 </button>
             </div>
         </div>
@@ -1644,36 +1644,36 @@
         <!-- Section 10: 物料管理 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-photo-video"></i> 物料管理</h2>
+                <h2><i class="fas fa-photo-video"></i> <span data-i18n="materials">物料管理</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
                 <div class="grid-3">
                     <div>
-                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-image" style="color: var(--accent-gold);"></i> 电子海报</h4>
+                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-image" style="color: var(--accent-gold);"></i> <span data-i18n="poster">电子海报</span></h4>
                         <div class="item-list" id="posterList" style="gap: 0.5rem;">
                             <!-- Dynamic posters -->
                         </div>
                         <button class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;" onclick="openModal('posterModal')">
-                            <i class="fas fa-plus"></i> 添加海报
+                            <i class="fas fa-plus"></i> <span data-i18n="addPoster">添加海报</span>
                         </button>
                     </div>
                     <div>
-                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-video" style="color: var(--accent-cyan);"></i> 宣传视频</h4>
+                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-video" style="color: var(--accent-cyan);"></i> <span data-i18n="video">宣传视频</span></h4>
                         <div class="item-list" id="videoList" style="gap: 0.5rem;">
                             <!-- Dynamic videos -->
                         </div>
                         <button class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;" onclick="openModal('videoModal')">
-                            <i class="fas fa-plus"></i> 添加视频
+                            <i class="fas fa-plus"></i> <span data-i18n="addVideo">添加视频</span>
                         </button>
                     </div>
                     <div>
-                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-chalkboard" style="color: var(--warning);"></i> 易拉宝</h4>
+                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-chalkboard" style="color: var(--warning);"></i> <span data-i18n="banner">易拉宝</span></h4>
                         <div class="item-list" id="bannerList" style="gap: 0.5rem;">
                             <!-- Dynamic banners -->
                         </div>
                         <button class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;" onclick="openModal('bannerModal')">
-                            <i class="fas fa-plus"></i> 添加易拉宝
+                            <i class="fas fa-plus"></i> <span data-i18n="addBanner">添加易拉宝</span>
                         </button>
                     </div>
                 </div>
@@ -1683,18 +1683,18 @@
         <!-- Section 11: 活动预算 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-calculator"></i> 活动预算</h2>
+                <h2><i class="fas fa-calculator"></i> <span data-i18n="budget">活动预算</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
                 <table class="budget-table">
                     <thead>
                         <tr>
-                            <th>类别</th>
-                            <th>预算金额</th>
-                            <th>实际花费</th>
-                            <th>备注</th>
-                            <th>操作</th>
+                            <th data-i18n="category">类别</th>
+                            <th data-i18n="amount">预算金额</th>
+                            <th data-i18n="spent">实际花费</th>
+                            <th data-i18n="note">备注</th>
+                            <th data-i18n="action">操作</th>
                         </tr>
                     </thead>
                     <tbody id="budgetTable">
@@ -1702,14 +1702,14 @@
                     </tbody>
                     <tfoot>
                         <tr class="total-row">
-                            <td colspan="2">总计</td>
+                            <td colspan="2" data-i18n="totalLabel">总计</td>
                             <td class="amount" id="totalBudgetAmount">$0</td>
                             <td colspan="2"></td>
                         </tr>
                     </tfoot>
                 </table>
                 <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="openModal('budgetModal')">
-                    <i class="fas fa-plus"></i> 添加预算项
+                    <i class="fas fa-plus"></i> <span data-i18n="addBudget">添加预算项</span>
                 </button>
             </div>
         </div>
@@ -1717,26 +1717,26 @@
         <!-- Section 12: 活动目标 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-bullseye"></i> 活动目标</h2>
+                <h2><i class="fas fa-bullseye"></i> <span data-i18n="goals">活动目标</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label class="form-label">CAMP 销售目标（人/天）</label>
+                        <label class="form-label" data-i18n="campTarget">CAMP 销售目标（人/天）</label>
                         <input type="number" class="form-input" id="campTarget" value="30">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">VEX IQ 小学赛队</label>
+                        <label class="form-label" data-i18n="vexElementary">VEX IQ 小学赛队</label>
                         <input type="text" class="form-input" id="vexElementary" value="1个">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">VEX IQ 中学赛队</label>
+                        <label class="form-label" data-i18n="vexMiddle">VEX IQ 中学赛队</label>
                         <input type="text" class="form-input" id="vexMiddle" value="1个">
                     </div>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">其他目标</label>
+                    <label class="form-label" data-i18n="otherGoals">其他目标</label>
                     <textarea class="form-textarea" id="otherGoals" placeholder="其他活动目标..."></textarea>
                 </div>
             </div>
@@ -1745,7 +1745,7 @@
         <!-- Section 13: Social Media -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-hashtag"></i> Social Media 安排</h2>
+                <h2><i class="fas fa-hashtag"></i> <span data-i18n="socialMedia">Social Media 安排</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
@@ -1763,17 +1763,17 @@
                         <input type="text" class="form-input" id="youtube" placeholder="MAGIKID Channel">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">小红书</label>
+                        <label class="form-label" data-i18n="xiaohongshu">小红书</label>
                         <input type="text" class="form-input" id="xiaohongshu" placeholder="@magikid">
                     </div>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">发布计划</label>
+                    <label class="form-label" data-i18n="postPlan">发布计划</label>
                     <div class="item-list" id="socialPostList">
                         <!-- Dynamic social posts -->
                     </div>
                     <button class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;" onclick="openModal('socialPostModal')">
-                        <i class="fas fa-plus"></i> 添加发布计划
+                        <i class="fas fa-plus"></i> <span data-i18n="addPost">添加发布计划</span>
                     </button>
                 </div>
             </div>
@@ -1782,7 +1782,7 @@
         <!-- Section 14: 准备清单 -->
         <div class="section-card">
             <div class="section-header" onclick="toggleSection(this)">
-                <h2><i class="fas fa-clipboard-list"></i> 开业准备清单</h2>
+                <h2><i class="fas fa-clipboard-list"></i> <span data-i18n="checklist">开业准备清单</span></h2>
                 <i class="fas fa-chevron-down section-toggle"></i>
             </div>
             <div class="section-content">
@@ -1906,26 +1906,26 @@
     <div class="modal-overlay" id="hostModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加主理人</h3>
+                <h3 data-i18n="addHost">添加主理人</h3>
                 <button class="modal-close" onclick="closeModal('hostModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">姓名</label>
+                    <label class="form-label" data-i18n="name">姓名</label>
                     <input type="text" class="form-input" id="hostName" placeholder="主理人姓名">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">背景简介</label>
+                    <label class="form-label" data-i18n="background">背景简介</label>
                     <textarea class="form-textarea" id="hostBackground" placeholder="个人背景介绍..."></textarea>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">邮箱</label>
+                    <label class="form-label" data-i18n="email">邮箱</label>
                     <input type="email" class="form-input" id="hostEmail" placeholder="email@example.com">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('hostModal')">取消</button>
-                <button class="btn btn-primary" onclick="addHost()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('hostModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addHost()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -1934,40 +1934,40 @@
     <div class="modal-overlay" id="guestModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加嘉宾</h3>
+                <h3 data-i18n="addGuest">添加嘉宾</h3>
                 <button class="modal-close" onclick="closeModal('guestModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">姓名</label>
+                    <label class="form-label" data-i18n="name">姓名</label>
                     <input type="text" class="form-input" id="guestName" placeholder="嘉宾姓名">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">身份/Title</label>
+                    <label class="form-label" data-i18n="title">身份/Title</label>
                     <input type="text" class="form-input" id="guestTitle" placeholder="如：市长、议员等">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">邮箱</label>
+                    <label class="form-label" data-i18n="email">邮箱</label>
                     <input type="email" class="form-input" id="guestEmail" placeholder="email@example.com">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">简介</label>
+                    <label class="form-label" data-i18n="bio">简介</label>
                     <textarea class="form-textarea" id="guestBio" placeholder="嘉宾简介..."></textarea>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">类型</label>
+                    <label class="form-label" data-i18n="type">类型</label>
                     <select class="form-select" id="guestType">
                         <option value="vip">VIP（政商名流）</option>
-                        <option value="speaker">演讲嘉宾</option>
-                        <option value="media">媒体</option>
-                        <option value="parent">家长代表</option>
-                        <option value="other">其他</option>
+                        <option value="speaker" data-i18n="speaker">演讲嘉宾</option>
+                        <option value="media" data-i18n="media">媒体</option>
+                        <option value="parent" data-i18n="parent">家长代表</option>
+                        <option value="other" data-i18n="other">其他</option>
                     </select>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('guestModal')">取消</button>
-                <button class="btn btn-primary" onclick="addGuest()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('guestModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addGuest()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -1976,26 +1976,26 @@
     <div class="modal-overlay" id="timelineModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加活动流程</h3>
+                <h3 data-i18n="addTimeline">添加活动流程</h3>
                 <button class="modal-close" onclick="closeModal('timelineModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">时间</label>
+                    <label class="form-label" data-i18n="time">时间</label>
                     <input type="time" class="form-input" id="timelineTime">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">活动名称</label>
+                    <label class="form-label" data-i18n="activityName">活动名称</label>
                     <input type="text" class="form-input" id="timelineTitle" placeholder="如：开业典礼、剪彩仪式">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">详细内容</label>
+                    <label class="form-label" data-i18n="details">详细内容</label>
                     <textarea class="form-textarea" id="timelineDetail" placeholder="活动详情、涉及人员等..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('timelineModal')">取消</button>
-                <button class="btn btn-primary" onclick="addTimeline()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('timelineModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addTimeline()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2004,35 +2004,35 @@
     <div class="modal-overlay" id="projectModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加互动项目</h3>
+                <h3 data-i18n="addProject">添加互动项目</h3>
                 <button class="modal-close" onclick="closeModal('projectModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">项目名称</label>
+                    <label class="form-label" data-i18n="projectName">项目名称</label>
                     <input type="text" class="form-input" id="projectName" placeholder="如：机器人拔河比赛">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">项目类型</label>
+                    <label class="form-label" data-i18n="projectType">项目类型</label>
                     <select class="form-select" id="projectType">
-                        <option value="demo">展示项目</option>
-                        <option value="interactive">互动体验</option>
-                        <option value="competition">比赛项目</option>
-                        <option value="ai">AI体验</option>
+                        <option value="demo" data-i18n="demo">展示项目</option>
+                        <option value="interactive" data-i18n="interactive">互动体验</option>
+                        <option value="competition" data-i18n="competition">比赛项目</option>
+                        <option value="ai" data-i18n="ai">AI体验</option>
                     </select>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">负责人</label>
+                    <label class="form-label" data-i18n="lead">负责人</label>
                     <input type="text" class="form-input" id="projectLead" placeholder="负责人姓名">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">时长（分钟）</label>
+                    <label class="form-label" data-i18n="duration">时长（分钟）</label>
                     <input type="number" class="form-input" id="projectDuration" placeholder="30">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('projectModal')">取消</button>
-                <button class="btn btn-primary" onclick="addProject()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('projectModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addProject()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2041,40 +2041,40 @@
     <div class="modal-overlay" id="prizeModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加奖品</h3>
+                <h3 data-i18n="addPrize">添加奖品</h3>
                 <button class="modal-close" onclick="closeModal('prizeModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">奖品名称</label>
+                    <label class="form-label" data-i18n="prizeName">奖品名称</label>
                     <input type="text" class="form-input" id="prizeName" placeholder="如：免费夏令营一天">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">奖品类型</label>
+                    <label class="form-label" data-i18n="prizeType">奖品类型</label>
                     <select class="form-select" id="prizeType">
-                        <option value="raffle">抽奖奖品</option>
-                        <option value="competition">比赛奖品</option>
-                        <option value="special">特别奖</option>
+                        <option value="raffle" data-i18n="raffle">抽奖奖品</option>
+                        <option value="competition" data-i18n="competition">比赛奖品</option>
+                        <option value="special" data-i18n="special">特别奖</option>
                     </select>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">奖项等级</label>
+                    <label class="form-label" data-i18n="prizeLevel">奖项等级</label>
                     <select class="form-select" id="prizeLevel">
-                        <option value="grand">大奖</option>
-                        <option value="first">一等奖</option>
-                        <option value="second">二等奖</option>
-                        <option value="third">三等奖</option>
-                        <option value="participation">参与奖</option>
+                        <option value="grand" data-i18n="grand">大奖</option>
+                        <option value="first" data-i18n="first">一等奖</option>
+                        <option value="second" data-i18n="second">二等奖</option>
+                        <option value="third" data-i18n="third">三等奖</option>
+                        <option value="participation" data-i18n="participation">参与奖</option>
                     </select>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">数量</label>
+                    <label class="form-label" data-i18n="quantity">数量</label>
                     <input type="number" class="form-input" id="prizeQuantity" value="1">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('prizeModal')">取消</button>
-                <button class="btn btn-primary" onclick="addPrize()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('prizeModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addPrize()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2083,34 +2083,34 @@
     <div class="modal-overlay" id="budgetModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加预算项</h3>
+                <h3 data-i18n="addBudget">添加预算项</h3>
                 <button class="modal-close" onclick="closeModal('budgetModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">类别</label>
+                    <label class="form-label" data-i18n="category">类别</label>
                     <select class="form-select" id="budgetCategory">
-                        <option value="travel">差旅费</option>
-                        <option value="food">食品</option>
-                        <option value="printing">印刷宣传品</option>
-                        <option value="souvenirs">纪念品</option>
-                        <option value="rental">场地设备租赁</option>
-                        <option value="marketing">市场营销</option>
-                        <option value="other">其他</option>
+                        <option value="travel" data-i18n="travel">差旅费</option>
+                        <option value="food" data-i18n="food">食品</option>
+                        <option value="printing" data-i18n="printing">印刷宣传品</option>
+                        <option value="souvenirs" data-i18n="souvenirs">纪念品</option>
+                        <option value="rental" data-i18n="rental">场地设备租赁</option>
+                        <option value="marketing" data-i18n="marketing">市场营销</option>
+                        <option value="other" data-i18n="other">其他</option>
                     </select>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">预算金额</label>
+                    <label class="form-label" data-i18n="amount">预算金额</label>
                     <input type="number" class="form-input" id="budgetAmount" placeholder="0">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">备注</label>
+                    <label class="form-label" data-i18n="note">备注</label>
                     <input type="text" class="form-input" id="budgetNote" placeholder="备注信息">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('budgetModal')">取消</button>
-                <button class="btn btn-primary" onclick="addBudget()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('budgetModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addBudget()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2119,22 +2119,22 @@
     <div class="modal-overlay" id="leadModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加项目负责人</h3>
+                <h3 data-i18n="addLeadTitle">添加项目负责人</h3>
                 <button class="modal-close" onclick="closeModal('leadModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">姓名</label>
+                    <label class="form-label" data-i18n="name">姓名</label>
                     <input type="text" class="form-input" id="leadName" placeholder="负责人姓名">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">职责</label>
+                    <label class="form-label" data-i18n="roleLabel">职责</label>
                     <input type="text" class="form-input" id="leadRole" placeholder="负责项目">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('leadModal')">取消</button>
-                <button class="btn btn-primary" onclick="addLead()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('leadModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addLead()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2143,22 +2143,22 @@
     <div class="modal-overlay" id="receptionModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加接待人员</h3>
+                <h3 data-i18n="addReception">添加接待人员</h3>
                 <button class="modal-close" onclick="closeModal('receptionModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">姓名</label>
+                    <label class="form-label" data-i18n="name">姓名</label>
                     <input type="text" class="form-input" id="receptionName" placeholder="接待人员姓名">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">职责</label>
+                    <label class="form-label" data-i18n="roleLabel">职责</label>
                     <input type="text" class="form-input" id="receptionRole" placeholder="接待位置">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('receptionModal')">取消</button>
-                <button class="btn btn-primary" onclick="addReception()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('receptionModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addReception()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2167,22 +2167,22 @@
     <div class="modal-overlay" id="vipModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加VIP接待</h3>
+                <h3 data-i18n="addVIP">添加VIP接待</h3>
                 <button class="modal-close" onclick="closeModal('vipModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">VIP姓名</label>
+                    <label class="form-label" data-i18n="vipName">VIP姓名</label>
                     <input type="text" class="form-input" id="vipName" placeholder="VIP姓名">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">负责接待人</label>
+                    <label class="form-label" data-i18n="vipHandler">负责接待人</label>
                     <input type="text" class="form-input" id="vipHandler" placeholder="负责接待的人员">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('vipModal')">取消</button>
-                <button class="btn btn-primary" onclick="addVIP()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('vipModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addVIP()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2191,22 +2191,22 @@
     <div class="modal-overlay" id="raffleModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加抽奖嘉宾</h3>
+                <h3 data-i18n="addRaffleGuest">添加抽奖嘉宾</h3>
                 <button class="modal-close" onclick="closeModal('raffleModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">嘉宾姓名</label>
+                    <label class="form-label" data-i18n="guestNameLabel">嘉宾姓名</label>
                     <input type="text" class="form-input" id="raffleName" placeholder="抽奖嘉宾姓名">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">身份</label>
+                    <label class="form-label" data-i18n="title">身份</label>
                     <input type="text" class="form-input" id="raffleTitle" placeholder="身份/Title">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('raffleModal')">取消</button>
-                <button class="btn btn-primary" onclick="addRaffleHost()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('raffleModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addRaffleHost()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2215,22 +2215,22 @@
     <div class="modal-overlay" id="posterModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加海报</h3>
+                <h3 data-i18n="addPoster">添加海报</h3>
                 <button class="modal-close" onclick="closeModal('posterModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">海报名称</label>
+                    <label class="form-label" data-i18n="posterName">海报名称</label>
                     <input type="text" class="form-input" id="posterName" placeholder="海报名称">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">链接/路径</label>
+                    <label class="form-label" data-i18n="urlPath">链接/路径</label>
                     <input type="text" class="form-input" id="posterUrl" placeholder="https://...">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('posterModal')">取消</button>
-                <button class="btn btn-primary" onclick="addPoster()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('posterModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addPoster()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2239,22 +2239,22 @@
     <div class="modal-overlay" id="videoModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加视频</h3>
+                <h3 data-i18n="addVideo">添加视频</h3>
                 <button class="modal-close" onclick="closeModal('videoModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">视频名称</label>
+                    <label class="form-label" data-i18n="videoName">视频名称</label>
                     <input type="text" class="form-input" id="videoName" placeholder="视频名称">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">视频链接</label>
+                    <label class="form-label" data-i18n="videoUrl">视频链接</label>
                     <input type="text" class="form-input" id="videoUrl" placeholder="https://...">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('videoModal')">取消</button>
-                <button class="btn btn-primary" onclick="addVideo()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('videoModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addVideo()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2263,22 +2263,22 @@
     <div class="modal-overlay" id="bannerModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加易拉宝</h3>
+                <h3 data-i18n="addBanner">添加易拉宝</h3>
                 <button class="modal-close" onclick="closeModal('bannerModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">易拉宝名称</label>
+                    <label class="form-label" data-i18n="bannerName">易拉宝名称</label>
                     <input type="text" class="form-input" id="bannerName" placeholder="易拉宝名称">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">摆放位置</label>
+                    <label class="form-label" data-i18n="location">摆放位置</label>
                     <input type="text" class="form-input" id="bannerLocation" placeholder="摆放位置">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('bannerModal')">取消</button>
-                <button class="btn btn-primary" onclick="addBanner()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('bannerModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addBanner()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2287,32 +2287,32 @@
     <div class="modal-overlay" id="socialPostModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>添加发布计划</h3>
+                <h3 data-i18n="addPost">添加发布计划</h3>
                 <button class="modal-close" onclick="closeModal('socialPostModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">发布日期</label>
+                    <label class="form-label" data-i18n="postDate">发布日期</label>
                     <input type="date" class="form-input" id="postDate">
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">发布平台</label>
+                    <label class="form-label" data-i18n="platform">发布平台</label>
                     <select class="form-select" id="postPlatform">
                         <option value="instagram">Instagram</option>
                         <option value="facebook">Facebook</option>
                         <option value="youtube">YouTube</option>
-                        <option value="xiaohongshu">小红书</option>
-                        <option value="all">全部平台</option>
+                        <option value="xiaohongshu" data-i18n="xiaohongshu">小红书</option>
+                        <option value="all" data-i18n="allPlatforms">全部平台</option>
                     </select>
                 </div>
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label">内容描述</label>
+                    <label class="form-label" data-i18n="postContent">内容描述</label>
                     <textarea class="form-textarea" id="postContent" placeholder="发布内容..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('socialPostModal')">取消</button>
-                <button class="btn btn-primary" onclick="addSocialPost()">添加</button>
+                <button class="btn btn-secondary" onclick="closeModal('socialPostModal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="addSocialPost()" data-i18n="add">添加</button>
             </div>
         </div>
     </div>
@@ -2443,7 +2443,97 @@
                 discountType: '优惠类型',
                 discountAmount: '折扣力度',
                 discountValid: '有效期',
-                postPlan: '发布计划'
+                postPlan: '发布计划',
+                // new keys
+                dragFileHere: '拖拽文件到此处或点击上传',
+                chooseFile: '选择文件',
+                pasteEmailList: '或粘贴邮箱列表（每行一个）',
+                importEmail: '导入邮箱',
+                emailSubjectLabel: '邮件主题',
+                emailPreviewLabel: '邮件内容预览',
+                copyEmailTemplate: '复制邮件模板',
+                age36: '3-6岁',
+                age714: '7-14岁',
+                age15: '15岁以上',
+                totalLabel: '总计',
+                personUnit: '人',
+                projectLeadTitle: 'Project 负责人（4人）',
+                receptionTitle: '客户沟通接待（2人）',
+                addLead: '添加负责人',
+                addReception: '添加接待人员',
+                addVIP: '添加VIP接待',
+                addRaffleGuest: '添加抽奖嘉宾',
+                addPoster: '添加海报',
+                addVideo: '添加视频',
+                addBanner: '添加易拉宝',
+                action: '操作',
+                prog_robotics: '机器人小班课',
+                'prog_ai-camp': 'AI机器人夏令营',
+                'prog_vex-iq': 'VEX IQ 比赛训练',
+                prog_nasa: 'NASA比赛筹备',
+                prog_stanford: '斯坦福比赛筹备',
+                'prog_vex-ai': 'VEX AI比赛训练',
+                prog_ioai: '奥林匹克AI课程',
+                prog_private: '私教课',
+                prog_birthday: '生日派对',
+                prog_adult: '成年人课程',
+                prog_senior: 'Senior课程',
+                // Dynamic render strings
+                noHostInfo: '暂无主理人信息',
+                noGuestInfo: '暂无嘉宾信息',
+                noTimeline: '暂无活动流程',
+                noProjects: '暂无互动项目',
+                noPrizes: '暂无奖品',
+                noBudget: '暂无预算',
+                noLeads: '暂无负责人',
+                noReception: '暂无接待人员',
+                noVIP: '暂无VIP信息',
+                noRaffleGuest: '暂无抽奖嘉宾',
+                noPoster: '暂无海报',
+                noVideo: '暂无视频',
+                noBanner: '暂无易拉宝',
+                noSocialPost: '暂无发布计划',
+                noIntro: '暂无简介',
+                noEmail: '暂无邮箱',
+                editBtn: '编辑',
+                deleteBtn: '删除',
+                enterName: '请输入姓名',
+                enterActivityName: '请输入活动名称',
+                enterProjectName: '请输入项目名称',
+                enterPrizeName: '请输入奖品名称',
+                enterValidAmount: '请输入有效金额',
+                enterVIPName: '请输入VIP姓名',
+                enterGuestName: '请输入嘉宾姓名',
+                enterPosterName: '请输入海报名称',
+                enterVideoName: '请输入视频名称',
+                enterBannerName: '请输入易拉宝名称',
+                timeTBD: '时间待定',
+                minUnit: '分钟',
+                addNote: '添加备注',
+                vipHandlerPrefix: '接待人',
+                tbd: '待定',
+                dateTBD: '日期待定',
+                contentTBD: '内容待定',
+                enterLabName: '请输入新Lab名称：',
+                addLeadTitle: '添加项目负责人',
+                roleLabel: '职责',
+                vipName: 'VIP姓名',
+                vipHandler: '负责接待人',
+                guestNameLabel: '嘉宾姓名',
+                posterName: '海报名称',
+                urlPath: '链接/路径',
+                videoName: '视频名称',
+                videoUrl: '视频链接',
+                bannerName: '易拉宝名称',
+                location: '摆放位置',
+                allPlatforms: '全部平台',
+                importCount: '导入 {n} 位嘉宾',
+                importSuccess: '成功导入 {n} 位嘉宾！',
+                pdfFailed: 'PDF导出失败，请重试。',
+                emailCopied: '邮件模板已复制到剪贴板！',
+                appSubtitleHeader: 'MAGIKID Lab 开业助手',
+                addNewLab: '➕ 添加新Lab',
+                presetDataTitle: '预设数据'
             },
             en: {
                 appTitle: 'MAGIKID AI ROBOTICS LAB',
@@ -2563,11 +2653,102 @@
                 postDate: 'Post Date',
                 postContent: 'Content',
                 addPost: 'Add Post Plan',
+                postPlan: 'Post Plan',
                 rafflePrizesTab: 'Raffle Prizes',
                 discountTab: 'Special Offers',
                 discountType: 'Offer Type',
                 discountAmount: 'Discount',
-                discountValid: 'Valid Period'
+                discountValid: 'Valid Period',
+                // new keys
+                dragFileHere: 'Drag file here or click to upload',
+                chooseFile: 'Choose File',
+                pasteEmailList: 'Or paste email list (one per line)',
+                importEmail: 'Import Emails',
+                emailSubjectLabel: 'Email Subject',
+                emailPreviewLabel: 'Email Preview',
+                copyEmailTemplate: 'Copy Email Template',
+                age36: 'Ages 3-6',
+                age714: 'Ages 7-14',
+                age15: 'Ages 15+',
+                totalLabel: 'Total',
+                personUnit: 'ppl',
+                projectLeadTitle: 'Project Leads (4 people)',
+                receptionTitle: 'Guest Reception (2 people)',
+                addLead: 'Add Lead',
+                addReception: 'Add Reception Staff',
+                addVIP: 'Add VIP Reception',
+                addRaffleGuest: 'Add Raffle Guest',
+                addPoster: 'Add Poster',
+                addVideo: 'Add Video',
+                addBanner: 'Add Banner',
+                action: 'Action',
+                prog_robotics: 'Robotics Small Classes',
+                'prog_ai-camp': 'AI Robotics Summer Camp',
+                'prog_vex-iq': 'VEX IQ Competition Training',
+                prog_nasa: 'NASA Competition Prep',
+                prog_stanford: 'Stanford Competition Prep',
+                'prog_vex-ai': 'VEX AI Competition Training',
+                prog_ioai: 'Olympic AI Courses',
+                prog_private: 'Private Lessons',
+                prog_birthday: 'Birthday Parties',
+                prog_adult: 'Adult Courses',
+                prog_senior: 'Senior Courses',
+                // Dynamic render strings
+                noHostInfo: 'No host information yet',
+                noGuestInfo: 'No guest information yet',
+                noTimeline: 'No activity timeline yet',
+                noProjects: 'No interactive projects yet',
+                noPrizes: 'No prizes yet',
+                noBudget: 'No budget items yet',
+                noLeads: 'No leads yet',
+                noReception: 'No reception staff yet',
+                noVIP: 'No VIP information yet',
+                noRaffleGuest: 'No raffle guests yet',
+                noPoster: 'No posters yet',
+                noVideo: 'No videos yet',
+                noBanner: 'No banners yet',
+                noSocialPost: 'No post plans yet',
+                noIntro: 'No bio',
+                noEmail: 'No email',
+                editBtn: 'Edit',
+                deleteBtn: 'Delete',
+                enterName: 'Please enter a name',
+                enterActivityName: 'Please enter an activity name',
+                enterProjectName: 'Please enter a project name',
+                enterPrizeName: 'Please enter a prize name',
+                enterValidAmount: 'Please enter a valid amount',
+                enterVIPName: 'Please enter a VIP name',
+                enterGuestName: 'Please enter a guest name',
+                enterPosterName: 'Please enter a poster name',
+                enterVideoName: 'Please enter a video name',
+                enterBannerName: 'Please enter a banner name',
+                timeTBD: 'TBD',
+                minUnit: ' min',
+                addNote: 'Add note',
+                vipHandlerPrefix: 'Handler',
+                tbd: 'TBD',
+                dateTBD: 'Date TBD',
+                contentTBD: 'Content TBD',
+                enterLabName: 'Enter new Lab name:',
+                addLeadTitle: 'Add Project Lead',
+                roleLabel: 'Role',
+                vipName: 'VIP Name',
+                vipHandler: 'Reception Staff',
+                guestNameLabel: 'Guest Name',
+                posterName: 'Poster Name',
+                urlPath: 'URL / Path',
+                videoName: 'Video Name',
+                videoUrl: 'Video URL',
+                bannerName: 'Banner Name',
+                location: 'Location',
+                allPlatforms: 'All Platforms',
+                importCount: 'Import {n} Guests',
+                importSuccess: 'Successfully imported {n} guests!',
+                pdfFailed: 'PDF export failed. Please try again.',
+                emailCopied: 'Email template copied to clipboard!',
+                appSubtitleHeader: 'MAGIKID Lab Opening Assistant',
+                addNewLab: '➕ Add New Lab',
+                presetDataTitle: 'Preset Data'
             }
         };
 
@@ -2582,6 +2763,7 @@
             localStorage.setItem('magikidLabLang', currentLang);
             document.documentElement.lang = currentLang;
             updateLanguageUI();
+            renderAll();
         }
 
         // Age Structure Calculator
@@ -2665,11 +2847,18 @@
             if (toggleBtn) {
                 toggleBtn.innerHTML = currentLang === 'zh' ? '🌐 EN' : '🌐 中文';
             }
-            
+
             // Update page title
-            document.title = currentLang === 'zh' 
-                ? 'MAGIKID Lab 开业助手 | Opening Assistant' 
+            document.title = currentLang === 'zh'
+                ? 'MAGIKID Lab 开业助手 | Opening Assistant'
                 : 'MAGIKID Lab Opening Assistant | 开业助手';
+
+            // Batch update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const text = translations[currentLang][key];
+                if (text) el.textContent = text;
+            });
         }
 
         // Pre-filled Courses/Programs
@@ -2864,12 +3053,8 @@
             
             loadData();
             updateLanguageUI();
-            
-            // If no data, load Las Vegas default data
             if (!localStorage.getItem('magikidLabAssistant')) {
-                if (confirm(currentLang === 'zh'
-                    ? '是否加载 Las Vegas Lab 开业预设数据？'
-                    : 'Load Las Vegas Lab preset data?')) {
+                if (confirm(t('loadPreset'))) {
                     appData = { ...appData, ...LAS_VEGAS_DATA };
                     saveData();
                 }
@@ -3015,7 +3200,7 @@
             const email = document.getElementById('hostEmail').value;
 
             if (!name) {
-                alert('请输入姓名');
+                alert(t('enterName'));
                 return;
             }
 
@@ -3043,20 +3228,20 @@
         function renderHosts() {
             const container = document.getElementById('hostList');
             if (appData.hosts.length === 0) {
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-user-tie"></i><p>暂无主理人信息</p></div>';
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-user-tie"></i><p>${t('noHostInfo')}</p></div>`;
                 return;
             }
             container.innerHTML = appData.hosts.map((h, i) => `
                 <div class="list-item">
                     <div class="list-item-content">
                         <div class="list-item-title">${h.name}</div>
-                        <div class="list-item-subtitle">${h.background || '暂无简介'}</div>
+                        <div class="list-item-subtitle">${h.background || t('noIntro')}</div>
                         <div class="list-item-meta">
-                            <span class="meta-tag"><i class="fas fa-envelope"></i> ${h.email || '暂无邮箱'}</span>
+                            <span class="meta-tag"><i class="fas fa-envelope"></i> ${h.email || t('noEmail')}</span>
                         </div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon" onclick="editHost(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon" onclick="editHost(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon" onclick="deleteHost(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3079,7 +3264,7 @@
             const type = document.getElementById('guestType').value;
 
             if (!name) {
-                alert('请输入姓名');
+                alert(t('enterName'));
                 return;
             }
 
@@ -3110,15 +3295,15 @@
         function renderGuests() {
             const container = document.getElementById('guestListContent');
             if (appData.guests.length === 0) {
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><p>暂无嘉宾信息</p></div>';
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><p>' + t('noGuestInfo') + '</p></div>';
                 return;
             }
             const typeLabels = {
                 vip: 'VIP',
-                speaker: '演讲嘉宾',
-                media: '媒体',
-                parent: '家长',
-                other: '其他'
+                speaker: t('speaker'),
+                media: t('media'),
+                parent: t('parent'),
+                other: t('other')
             };
             const typeColors = {
                 vip: 'gold',
@@ -3131,14 +3316,14 @@
                 <div class="list-item">
                     <div class="list-item-content">
                         <div class="list-item-title">${g.name}</div>
-                        <div class="list-item-subtitle">${g.title || '身份待定'} ${g.bio ? '- ' + g.bio : ''}</div>
+                        <div class="list-item-subtitle">${g.title || t('title')} ${g.bio ? '- ' + g.bio : ''}</div>
                         <div class="list-item-meta">
-                            <span class="badge badge-${typeColors[g.type]}">${typeLabels[g.type] || '其他'}</span>
-                            <span class="meta-tag"><i class="fas fa-envelope"></i> ${g.email || '暂无邮箱'}</span>
+                            <span class="badge badge-${typeColors[g.type]}">${typeLabels[g.type] || t('other')}</span>
+                            <span class="meta-tag"><i class="fas fa-envelope"></i> ${g.email || t('noEmail')}</span>
                         </div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon" onclick="editGuest(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon" onclick="editGuest(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon" onclick="deleteGuest(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3160,7 +3345,7 @@
             const detail = document.getElementById('timelineDetail').value;
 
             if (!title) {
-                alert('请输入活动名称');
+                alert(t('enterActivityName'));
                 return;
             }
 
@@ -3189,19 +3374,19 @@
         function renderTimeline() {
             const container = document.getElementById('timelineList');
             if (appData.timeline.length === 0) {
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-clock"></i><p>暂无活动流程</p></div>';
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-clock"></i><p>' + t('noTimeline') + '</p></div>';
                 return;
             }
-            container.innerHTML = appData.timeline.map((t, i) => `
+            container.innerHTML = appData.timeline.map((item, i) => `
                 <div class="timeline-item">
-                    <div class="timeline-time">${t.time || '时间待定'}</div>
-                    <div class="timeline-content">${t.title}</div>
-                    <div class="timeline-detail">${t.detail || ''}</div>
+                    <div class="timeline-time">${item.time || t('timeTBD')}</div>
+                    <div class="timeline-content">${item.title}</div>
+                    <div class="timeline-detail">${item.detail || ''}</div>
                     <button class="btn btn-secondary btn-sm" onclick="editTimeline(${i})" style="margin-top: 0.5rem; margin-right: 0.5rem;">
-                        <i class="fas fa-edit"></i> 编辑
+                        <i class="fas fa-edit"></i> ${t('editBtn')}
                     </button>
                     <button class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;" onclick="deleteTimeline(${i})">
-                        <i class="fas fa-trash"></i> 删除
+                        <i class="fas fa-trash"></i> ${t('deleteBtn')}
                     </button>
                 </div>
             `).join('');
@@ -3222,7 +3407,7 @@
             const duration = document.getElementById('projectDuration').value;
 
             if (!name) {
-                alert('请输入项目名称');
+                alert(t('enterProjectName'));
                 return;
             }
 
@@ -3251,13 +3436,13 @@
         function renderProjects() {
             const container = document.getElementById('projectList');
             const typeLabels = {
-                demo: '展示项目',
-                interactive: '互动体验',
-                competition: '比赛项目',
-                ai: 'AI体验'
+                demo: t('demo'),
+                interactive: t('interactive'),
+                competition: t('competition'),
+                ai: t('ai')
             };
             if (appData.projects.length === 0) {
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-gamepad"></i><p>暂无互动项目</p></div>';
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-gamepad"></i><p>' + t('noProjects') + '</p></div>';
                 return;
             }
             container.innerHTML = appData.projects.map((p, i) => `
@@ -3265,13 +3450,13 @@
                     <div class="list-item-content">
                         <div class="list-item-title">${p.name}</div>
                         <div class="list-item-meta">
-                            <span class="badge badge-cyan">${typeLabels[p.type] || '其他'}</span>
+                            <span class="badge badge-cyan">${typeLabels[p.type] || t('other')}</span>
                             ${p.lead ? `<span class="meta-tag"><i class="fas fa-user"></i> ${p.lead}</span>` : ''}
-                            ${p.duration ? `<span class="meta-tag"><i class="fas fa-clock"></i> ${p.duration}分钟</span>` : ''}
+                            ${p.duration ? `<span class="meta-tag"><i class="fas fa-clock"></i> ${p.duration}${t('minUnit')}</span>` : ''}
                         </div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon" onclick="editProject(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon" onclick="editProject(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon" onclick="deleteProject(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3293,7 +3478,7 @@
             const quantity = document.getElementById('prizeQuantity').value;
 
             if (!name) {
-                alert('请输入奖品名称');
+                alert(t('enterPrizeName'));
                 return;
             }
 
@@ -3322,11 +3507,11 @@
         function renderPrizes() {
             const container = document.getElementById('prizeList');
             const levelLabels = {
-                grand: '大奖',
-                first: '一等奖',
-                second: '二等奖',
-                third: '三等奖',
-                participation: '参与奖'
+                grand: t('grand'),
+                first: t('first'),
+                second: t('second'),
+                third: t('third'),
+                participation: t('participation')
             };
             const levelColors = {
                 grand: 'gold',
@@ -3336,7 +3521,7 @@
                 participation: ''
             };
             if (appData.prizes.length === 0) {
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-gift"></i><p>暂无奖品</p></div>';
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-gift"></i><p>' + t('noPrizes') + '</p></div>';
                 return;
             }
             container.innerHTML = appData.prizes.map((p, i) => `
@@ -3344,12 +3529,12 @@
                     <div class="list-item-content">
                         <div class="list-item-title">${p.name}</div>
                         <div class="list-item-meta">
-                            <span class="badge badge-${levelColors[p.level]}">${levelLabels[p.level] || '其他'}</span>
+                            <span class="badge badge-${levelColors[p.level]}">${levelLabels[p.level] || t('other')}</span>
                             <span class="meta-tag">x${p.quantity || 1}</span>
                         </div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon" onclick="editPrize(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon" onclick="editPrize(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon" onclick="deletePrize(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3370,7 +3555,7 @@
             const note = document.getElementById('budgetNote').value;
 
             if (amount <= 0) {
-                alert('请输入有效金额');
+                alert(t('enterValidAmount'));
                 return;
             }
 
@@ -3399,16 +3584,16 @@
         function renderBudget() {
             const container = document.getElementById('budgetTable');
             const categoryLabels = {
-                travel: '差旅费',
-                food: '食品',
-                printing: '印刷宣传品',
-                souvenirs: '纪念品',
-                rental: '场地设备租赁',
-                marketing: '市场营销',
-                other: '其他'
+                travel: t('travel'),
+                food: t('food'),
+                printing: t('printing'),
+                souvenirs: t('souvenirs'),
+                rental: t('rental'),
+                marketing: t('marketing'),
+                other: t('other')
             };
             if (appData.budget.length === 0) {
-                container.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">暂无预算</td></tr>';
+                container.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">' + t('noBudget') + '</td></tr>';
                 return;
             }
             container.innerHTML = appData.budget.map((b, i) => `
@@ -3416,9 +3601,9 @@
                     <td>${categoryLabels[b.category] || b.category}</td>
                     <td class="amount">$${b.amount.toLocaleString()}</td>
                     <td><input type="number" class="form-input" style="width: 100px; padding: 0.5rem;" value="${b.spent || 0}" onchange="updateBudgetSpent(${i}, this.value)"></td>
-                    <td><input type="text" class="form-input" style="width: 150px; padding: 0.5rem; font-size: 0.85rem;" value="${b.note || ''}" placeholder="添加备注..." onchange="updateBudgetNote(${i}, this.value)"></td>
+                    <td><input type="text" class="form-input" style="width: 150px; padding: 0.5rem; font-size: 0.85rem;" value="${b.note || ''}" placeholder="${t('addNote')}..." onchange="updateBudgetNote(${i}, this.value)"></td>
                     <td>
-                        <button class="btn btn-secondary btn-sm" onclick="editBudget(${i})" title="编辑" style="margin-right: 0.25rem;"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-sm" onclick="editBudget(${i})" title="${t('editBtn')}" style="margin-right: 0.25rem;"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-sm" onclick="deleteBudget(${i})"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
@@ -3457,7 +3642,7 @@
             const role = document.getElementById('leadRole').value;
 
             if (!name) {
-                alert('请输入姓名');
+                alert(t('enterName'));
                 return;
             }
 
@@ -3484,17 +3669,17 @@
         function renderLeads() {
             const container = document.getElementById('projectLeadList');
             if (appData.leads.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted);">暂无负责人</p>';
+                container.innerHTML = '<p style="color: var(--text-muted);">' + t('noLeads') + '</p>';
                 return;
             }
             container.innerHTML = appData.leads.map((l, i) => `
                 <div class="list-item" style="padding: 0.75rem 1rem;">
                     <div class="list-item-content">
                         <div class="list-item-title">${l.name}</div>
-                        <div class="list-item-subtitle">${l.role || 'Project 负责人'}</div>
+                        <div class="list-item-subtitle">${l.role || t('projectLead')}</div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon" onclick="editLead(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon" onclick="editLead(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon" onclick="deleteLead(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3514,7 +3699,7 @@
             const role = document.getElementById('receptionRole').value;
 
             if (!name) {
-                alert('请输入姓名');
+                alert(t('enterName'));
                 return;
             }
 
@@ -3541,17 +3726,17 @@
         function renderReception() {
             const container = document.getElementById('receptionList');
             if (appData.reception.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted);">暂无接待人员</p>';
+                container.innerHTML = '<p style="color: var(--text-muted);">' + t('noReception') + '</p>';
                 return;
             }
             container.innerHTML = appData.reception.map((r, i) => `
                 <div class="list-item" style="padding: 0.75rem 1rem;">
                     <div class="list-item-content">
                         <div class="list-item-title">${r.name}</div>
-                        <div class="list-item-subtitle">${r.role || '客户沟通接待'}</div>
+                        <div class="list-item-subtitle">${r.role || t('reception')}</div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon" onclick="editReception(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon" onclick="editReception(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon" onclick="deleteReception(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3571,7 +3756,7 @@
             const handler = document.getElementById('vipHandler').value;
 
             if (!name) {
-                alert('请输入VIP姓名');
+                alert(t('enterVIPName'));
                 return;
             }
 
@@ -3598,17 +3783,17 @@
         function renderVIPs() {
             const container = document.getElementById('vipList');
             if (appData.vips.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted);">暂无VIP信息</p>';
+                container.innerHTML = '<p style="color: var(--text-muted);">' + t('noVIP') + '</p>';
                 return;
             }
             container.innerHTML = appData.vips.map((v, i) => `
                 <div class="list-item" style="padding: 0.75rem 1rem;">
                     <div class="list-item-content">
                         <div class="list-item-title">${v.name}</div>
-                        <div class="list-item-subtitle">接待人: ${v.handler || '待定'}</div>
+                        <div class="list-item-subtitle">${t('vipHandlerPrefix')}: ${v.handler || t('tbd')}</div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon" onclick="editVIP(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon" onclick="editVIP(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon" onclick="deleteVIP(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3628,7 +3813,7 @@
             const title = document.getElementById('raffleTitle').value;
 
             if (!name) {
-                alert('请输入嘉宾姓名');
+                alert(t('enterGuestName'));
                 return;
             }
 
@@ -3655,17 +3840,17 @@
         function renderRaffleHosts() {
             const container = document.getElementById('raffleHostList');
             if (appData.raffleHosts.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted);">暂无抽奖嘉宾</p>';
+                container.innerHTML = '<p style="color: var(--text-muted);">' + t('noRaffleGuest') + '</p>';
                 return;
             }
             container.innerHTML = appData.raffleHosts.map((r, i) => `
                 <div class="list-item" style="padding: 0.75rem 1rem;">
                     <div class="list-item-content">
                         <div class="list-item-title">${r.name}</div>
-                        <div class="list-item-subtitle">${r.title || '抽奖嘉宾'}</div>
+                        <div class="list-item-subtitle">${r.title || t('raffleHost')}</div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon" onclick="editRaffleHost(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon" onclick="editRaffleHost(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon" onclick="deleteRaffleHost(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3685,7 +3870,7 @@
             const url = document.getElementById('posterUrl').value;
 
             if (!name) {
-                alert('请输入海报名称');
+                alert(t('enterPosterName'));
                 return;
             }
 
@@ -3712,7 +3897,7 @@
         function renderPosters() {
             const container = document.getElementById('posterList');
             if (appData.posters.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted);">暂无海报</p>';
+                container.innerHTML = '<p style="color: var(--text-muted);">' + t('noPoster') + '</p>';
                 return;
             }
             container.innerHTML = appData.posters.map((p, i) => `
@@ -3721,7 +3906,7 @@
                         <div class="list-item-title" style="font-size: 0.85rem;">${p.name}</div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon btn-sm" onclick="editPoster(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon btn-sm" onclick="editPoster(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon btn-sm" onclick="deletePoster(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3741,7 +3926,7 @@
             const url = document.getElementById('videoUrl').value;
 
             if (!name) {
-                alert('请输入视频名称');
+                alert(t('enterVideoName'));
                 return;
             }
 
@@ -3768,7 +3953,7 @@
         function renderVideos() {
             const container = document.getElementById('videoList');
             if (appData.videos.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted);">暂无视频</p>';
+                container.innerHTML = '<p style="color: var(--text-muted);">' + t('noVideo') + '</p>';
                 return;
             }
             container.innerHTML = appData.videos.map((v, i) => `
@@ -3777,7 +3962,7 @@
                         <div class="list-item-title" style="font-size: 0.85rem;">${v.name}</div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon btn-sm" onclick="editVideo(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon btn-sm" onclick="editVideo(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon btn-sm" onclick="deleteVideo(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3797,7 +3982,7 @@
             const location = document.getElementById('bannerLocation').value;
 
             if (!name) {
-                alert('请输入易拉宝名称');
+                alert(t('enterBannerName'));
                 return;
             }
 
@@ -3824,7 +4009,7 @@
         function renderBanners() {
             const container = document.getElementById('bannerList');
             if (appData.banners.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted);">暂无易拉宝</p>';
+                container.innerHTML = '<p style="color: var(--text-muted);">' + t('noBanner') + '</p>';
                 return;
             }
             container.innerHTML = appData.banners.map((b, i) => `
@@ -3834,7 +4019,7 @@
                         <div class="list-item-subtitle" style="font-size: 0.75rem;">${b.location || ''}</div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon btn-sm" onclick="editBanner(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon btn-sm" onclick="editBanner(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon btn-sm" onclick="deleteBanner(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3878,7 +4063,7 @@
         function renderSocialPosts() {
             const container = document.getElementById('socialPostList');
             if (appData.socialPosts.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted);">暂无发布计划</p>';
+                container.innerHTML = '<p style="color: var(--text-muted);">' + t('noSocialPost') + '</p>';
                 return;
             }
             const platformIcons = {
@@ -3891,11 +4076,11 @@
             container.innerHTML = appData.socialPosts.map((p, i) => `
                 <div class="list-item" style="padding: 0.75rem 1rem;">
                     <div class="list-item-content">
-                        <div class="list-item-title">${p.date || '日期待定'} <i class="${platformIcons[p.platform]}"></i></div>
-                        <div class="list-item-subtitle">${p.content || '内容待定'}</div>
+                        <div class="list-item-title">${p.date || t('dateTBD')} <i class="${platformIcons[p.platform]}"></i></div>
+                        <div class="list-item-subtitle">${p.content || t('contentTBD')}</div>
                     </div>
                     <div class="list-item-actions">
-                        <button class="btn btn-secondary btn-icon btn-sm" onclick="editSocialPost(${i})" title="编辑"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-icon btn-sm" onclick="editSocialPost(${i})" title="${t('editBtn')}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-icon btn-sm" onclick="deleteSocialPost(${i})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -3929,7 +4114,7 @@
             const importBtn = document.createElement('button');
             importBtn.className = 'btn btn-cyan';
             importBtn.style.marginTop = '1rem';
-            importBtn.innerHTML = `<i class="fas fa-user-plus"></i> 导入 ${emails.length} 位嘉宾`;
+            importBtn.innerHTML = `<i class="fas fa-user-plus"></i> ${t('importCount').replace('{n}', emails.length)}`;
             importBtn.onclick = () => {
                 emails.forEach(email => {
                     appData.guests.push({
@@ -3945,7 +4130,7 @@
                 saveData();
                 document.getElementById('emailPaste').value = '';
                 preview.innerHTML = '';
-                alert(`成功导入 ${emails.length} 位嘉宾！`);
+                alert(t('importSuccess').replace('{n}', emails.length));
             };
             preview.appendChild(importBtn);
         }
@@ -3970,7 +4155,7 @@
             const preview = document.getElementById('emailPreview');
             const text = preview.innerText;
             navigator.clipboard.writeText(text).then(() => {
-                alert('邮件模板已复制到剪贴板！');
+                alert(t('emailCopied'));
             });
         }
 
@@ -4108,7 +4293,7 @@
         function exportPDF() {
             const btn = event.target.closest('button');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('exporting')}`;
             btn.disabled = true;
 
             // Create PDF content
@@ -4327,13 +4512,13 @@
                 document.body.removeChild(pdfContent);
                 btn.innerHTML = originalText;
                 btn.disabled = false;
-                alert(isEN ? 'PDF export failed. Please try again.' : 'PDF导出失败，请重试。');
+                alert(t('pdfFailed'));
             });
         }
 
         // Load Sample Data
         function loadSampleData() {
-            if (confirm('确定要加载 Las Vegas Lab 预设数据吗？\n当前未保存的数据将会被覆盖。')) {
+            if (confirm(t('confirmLoad') + '\n' + t('currentData'))) {
                 appData = {
                     lab: { ...LAS_VEGAS_DATA.lab },
                     hosts: JSON.parse(JSON.stringify(LAS_VEGAS_DATA.hosts)),
@@ -4366,7 +4551,7 @@
         // Handle Lab Change
         function handleLabChange(value) {
             if (value === 'new') {
-                const labName = prompt('请输入新Lab名称：');
+                const labName = prompt(t('enterLabName'));
                 if (labName) {
                     appData.lab.name = labName;
                     appData.lab.openingDate = '';
