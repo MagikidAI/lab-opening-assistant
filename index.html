@@ -1259,7 +1259,7 @@
                 <button class="btn btn-secondary" id="langToggle" onclick="toggleLanguage()" style="font-weight: 600; min-width: 70px;">
                     🌐 <span class="btn-lang" data-i18n-lang>EN</span>
                 </button>
-                <button class="btn btn-cyan" onclick="exportPDF()">
+                <button class="btn btn-cyan" onclick="exportPDF(this)">
                     <i class="fas fa-file-pdf"></i> PDF
                 </button>
                 <button class="btn btn-secondary" onclick="exportData()">
@@ -4371,230 +4371,265 @@
         }
 
         // Export PDF
-        function exportPDF() {
-            const btn = event.target.closest('button');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('exporting')}`;
+        // Export PDF
+        function exportPDF(btnEl) {
+            var btn = btnEl || (event && event.target && event.target.closest('button'));
+            if (!btn) { alert('Export error: button not found'); return; }
+            var originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + t('exporting');
             btn.disabled = true;
 
-            // Create PDF content
-            const pdfContent = document.createElement('div');
-            pdfContent.style.cssText = 'width: 800px; padding: 40px; font-family: "Helvetica Neue", Arial, sans-serif; background: white; color: #333;';
+            var isEN = currentLang === 'en';
 
-            const isEN = currentLang === 'en';
-            
-            pdfContent.innerHTML = `
-                <div style="text-align: center; margin-bottom: 30px; border-bottom: 3px solid #d4a853; padding-bottom: 20px;">
-                    <h1 style="color: #d4a853; font-size: 28px; margin: 0;">${appData.lab.name || 'MAGIKID Lab'}</h1>
-                    <p style="color: #666; font-size: 14px; margin-top: 5px;">${isEN ? 'Opening Plan' : '开业计划'}</p>
-                </div>
-                
-                ${appData.lab.openingDate ? `
-                <div style="margin-bottom: 25px;">
-                    <h2 style="color: #333; font-size: 16px; border-left: 4px solid #d4a853; padding-left: 10px;">
-                        ${isEN ? 'Basic Information' : '基本信息'}
-                    </h2>
-                    <table style="width: 100%; margin-top: 10px; border-collapse: collapse;">
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #ddd; width: 30%; font-weight: bold;">${isEN ? 'Opening Date' : '开业日期'}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${appData.lab.openingDate}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">${isEN ? 'Address' : '地址'}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${appData.lab.address || '-'}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">${isEN ? 'Phone' : '电话'}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${appData.lab.phone || '-'}</td>
-                        </tr>
-                    </table>
-                </div>
-                ` : ''}
+            // Helper: build section wrapper
+            function sec(color, title, body) {
+                return '<div style="margin-bottom:25px;"><h2 style="color:#333;font-size:16px;border-left:4px solid ' + color + ';padding-left:10px;">' + title + '</h2>' + body + '</div>';
+            }
+            function table(thead, rows) {
+                return '<table style="width:100%;margin-top:10px;border-collapse:collapse;"><thead><tr style="background:#f5f5f5;">' + thead + '</tr></thead><tbody>' + rows + '</tbody></table>';
+            }
+            function th(t) { return '<th style="padding:10px;border:1px solid #ddd;text-align:left;">' + t + '</th>'; }
+            function td(t, extra) { return '<td style="padding:10px;border:1px solid #ddd;' + (extra||'') + '">' + t + '</td>'; }
 
-                ${appData.hosts.length > 0 ? `
-                <div style="margin-bottom: 25px;">
-                    <h2 style="color: #333; font-size: 16px; border-left: 4px solid #4ecdc4; padding-left: 10px;">
-                        ${isEN ? 'Lab Hosts' : 'Lab 主理人'}
-                    </h2>
-                    ${appData.hosts.map(h => `
-                        <div style="background: #f9f9f9; padding: 12px; border-radius: 6px; margin-top: 10px;">
-                            <strong>${h.name}</strong>
-                            ${h.background ? `<p style="margin: 8px 0 0; font-size: 13px; color: #666;">${h.background}</p>` : ''}
-                            ${h.email ? `<p style="margin: 5px 0 0; font-size: 12px; color: #999;">${h.email}</p>` : ''}
-                        </div>
-                    `).join('')}
-                </div>
-                ` : ''}
+            var html = '';
 
-                ${appData.timeline.length > 0 ? `
-                <div style="margin-bottom: 25px;">
-                    <h2 style="color: #333; font-size: 16px; border-left: 4px solid #d4a853; padding-left: 10px;">
-                        ${isEN ? 'Activity Flow' : '活动流程'}
-                    </h2>
-                    <table style="width: 100%; margin-top: 10px; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background: #f5f5f5;">
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: left; width: 15%;">${isEN ? 'Time' : '时间'}</th>
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">${isEN ? 'Activity' : '活动'}</th>
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">${isEN ? 'Details' : '详情'}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${appData.timeline.map(t => `
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; color: #d4a853;">${t.time || '-'}</td>
-                                    <td style="padding: 10px; border: 1px solid #ddd;">${t.title}</td>
-                                    <td style="padding: 10px; border: 1px solid #ddd; font-size: 13px; color: #666;">${(t.detail || '').replace(/\n/g, '<br>')}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-                ` : ''}
+            // Header
+            html += '<div style="text-align:center;margin-bottom:30px;border-bottom:3px solid #d4a853;padding-bottom:20px;">';
+            html += '<h1 style="color:#d4a853;font-size:28px;margin:0;">' + (appData.lab.name || 'MAGIKID Lab') + '</h1>';
+            html += '<p style="color:#666;font-size:14px;margin-top:5px;">' + (isEN ? 'Opening Plan' : '开业计划') + '</p>';
+            html += '</div>';
 
-                ${appData.guests.length > 0 ? `
-                <div style="margin-bottom: 25px;">
-                    <h2 style="color: #333; font-size: 16px; border-left: 4px solid #4ecdc4; padding-left: 10px;">
-                        ${isEN ? 'Guest List' : '嘉宾名单'} (${appData.guests.length} ${isEN ? 'people' : '人'})
-                    </h2>
-                    <table style="width: 100%; margin-top: 10px; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background: #f5f5f5;">
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">${isEN ? 'Name' : '姓名'}</th>
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">${isEN ? 'Title' : '身份'}</th>
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">${isEN ? 'Email' : '邮箱'}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${appData.guests.map(g => `
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #ddd;">${g.name}</td>
-                                    <td style="padding: 10px; border: 1px solid #ddd;">${g.title || '-'}</td>
-                                    <td style="padding: 10px; border: 1px solid #ddd;">${g.email || '-'}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-                ` : ''}
+            // Basic Info
+            if (appData.lab.openingDate) {
+                var rows = '<tr>' + td(isEN?'Opening Date':'开业日期','font-weight:bold;width:30%;') + td(appData.lab.openingDate) + '</tr>';
+                rows += '<tr>' + td(isEN?'Address':'地址','font-weight:bold;') + td(appData.lab.address||'-') + '</tr>';
+                rows += '<tr>' + td(isEN?'Phone':'电话','font-weight:bold;') + td(appData.lab.phone||'-') + '</tr>';
+                html += sec('#d4a853', isEN?'Basic Information':'基本信息', '<table style="width:100%;margin-top:10px;border-collapse:collapse;">' + rows + '</table>');
+            }
 
-                ${appData.projects.length > 0 ? `
-                <div style="margin-bottom: 25px;">
-                    <h2 style="color: #333; font-size: 16px; border-left: 4px solid #d4a853; padding-left: 10px;">
-                        ${isEN ? 'Interactive Projects' : '互动体验项目'}
-                    </h2>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
-                        ${appData.projects.map(p => `
-                            <div style="background: #f9f9f9; padding: 10px 15px; border-radius: 6px; border-left: 3px solid #4ecdc4;">
-                                <strong>${p.name}</strong>
-                                ${p.lead ? `<span style="font-size: 12px; color: #666; margin-left: 8px;">👤 ${p.lead}</span>` : ''}
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                ` : ''}
+            // Hosts
+            if (appData.hosts && appData.hosts.length > 0) {
+                var body = '';
+                appData.hosts.forEach(function(h) {
+                    body += '<div style="background:#f9f9f9;padding:12px;border-radius:6px;margin-top:10px;">';
+                    body += '<strong>' + h.name + '</strong>';
+                    if (h.background) body += '<p style="margin:8px 0 0;font-size:13px;color:#666;">' + h.background + '</p>';
+                    if (h.email) body += '<p style="margin:5px 0 0;font-size:12px;color:#999;">' + h.email + '</p>';
+                    body += '</div>';
+                });
+                html += sec('#4ecdc4', isEN?'Lab Hosts':'Lab 主理人', body);
+            }
 
-                ${appData.prizes.length > 0 ? `
-                <div style="margin-bottom: 25px;">
-                    <h2 style="color: #333; font-size: 16px; border-left: 4px solid #4ecdc4; padding-left: 10px;">
-                        ${isEN ? 'Prizes & Rewards' : '奖品设置'}
-                    </h2>
-                    <table style="width: 100%; margin-top: 10px; border-collapse: collapse;">
-                        ${appData.prizes.map(p => `
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${p.name}</td>
-                                <td style="padding: 8px; border: 1px solid #ddd; width: 80px; text-align: center;">x${p.quantity || 1}</td>
-                            </tr>
-                        `).join('')}
-                    </table>
-                </div>
-                ` : ''}
+            // Timeline
+            if (appData.timeline && appData.timeline.length > 0) {
+                var thead = th(isEN?'Time':'时间') + th(isEN?'Activity':'活动') + th(isEN?'Details':'详情');
+                var rows = '';
+                appData.timeline.forEach(function(item) {
+                    rows += '<tr>';
+                    rows += '<td style="padding:10px;border:1px solid #ddd;font-weight:bold;color:#d4a853;width:15%;">' + (item.time||'-') + '</td>';
+                    rows += '<td style="padding:10px;border:1px solid #ddd;">' + item.title + '</td>';
+                    rows += '<td style="padding:10px;border:1px solid #ddd;font-size:13px;color:#666;">' + (item.detail||'').replace(/\n/g,'<br>') + '</td>';
+                    rows += '</tr>';
+                });
+                html += sec('#d4a853', isEN?'Activity Flow':'活动流程', table(thead, rows));
+            }
 
-                ${appData.budget.length > 0 ? `
-                <div style="margin-bottom: 25px;">
-                    <h2 style="color: #333; font-size: 16px; border-left: 4px solid #d4a853; padding-left: 10px;">
-                        ${isEN ? 'Budget' : '活动预算'}
-                    </h2>
-                    <table style="width: 100%; margin-top: 10px; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background: #f5f5f5;">
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">${isEN ? 'Category' : '类别'}</th>
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">${isEN ? 'Amount' : '预算'}</th>
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">${isEN ? 'Spent' : '实际'}</th>
-                                <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">${isEN ? 'Note' : '备注'}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${appData.budget.map(b => {
-                                const categoryLabels = {
-                                    travel: isEN ? 'Travel' : '差旅费',
-                                    food: isEN ? 'Food' : '食品',
-                                    printing: isEN ? 'Printing' : '印刷宣传品',
-                                    souvenirs: isEN ? 'Souvenirs' : '纪念品',
-                                    rental: isEN ? 'Venue/Equipment' : '场地设备',
-                                    marketing: isEN ? 'Marketing' : '市场营销',
-                                    other: isEN ? 'Other' : '其他'
-                                };
-                                return `
-                                <tr>
-                                    <td style="padding: 10px; border: 1px solid #ddd;">${categoryLabels[b.category] || b.category}</td>
-                                    <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${(b.amount || 0).toLocaleString()}</td>
-                                    <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">$${(b.spent || 0).toLocaleString()}</td>
-                                    <td style="padding: 10px; border: 1px solid #ddd; font-size: 12px; color: #666;">${b.note || '-'}</td>
-                                </tr>
-                            `}).join('')}
-                            <tr style="background: #fff9e6; font-weight: bold;">
-                                <td style="padding: 10px; border: 1px solid #ddd;">${isEN ? 'Total' : '总计'}</td>
-                                <td style="padding: 10px; border: 1px solid #ddd; text-align: right; color: #d4a853;">$${appData.budget.reduce((s, b) => s + (b.amount || 0), 0).toLocaleString()}</td>
-                                <td style="padding: 10px; border: 1px solid #ddd; text-align: right; color: #d4a853;">$${appData.budget.reduce((s, b) => s + (b.spent || 0), 0).toLocaleString()}</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                ` : ''}
+            // Guests
+            if (appData.guests && appData.guests.length > 0) {
+                var thead = th(isEN?'Name':'姓名') + th(isEN?'Title':'身份') + th(isEN?'Email':'邮箱');
+                var rows = '';
+                appData.guests.forEach(function(g) {
+                    rows += '<tr>';
+                    rows += td(g.name);
+                    rows += td(g.title||'-');
+                    rows += '<td style="padding:10px;border:1px solid #ddd;word-break:break-all;">' + (g.email||'-') + '</td>';
+                    rows += '</tr>';
+                });
+                var title = (isEN?'Guest List':'嘉宾名单') + ' (' + appData.guests.length + ' ' + (isEN?'people':'人') + ')';
+                html += sec('#4ecdc4', title, table(thead, rows));
+            }
 
-                ${appData.goals.camp || appData.goals.vexElementary || appData.goals.vexMiddle ? `
-                <div style="margin-bottom: 25px;">
-                    <h2 style="color: #333; font-size: 16px; border-left: 4px solid #4ecdc4; padding-left: 10px;">
-                        ${isEN ? 'Goals' : '活动目标'}
-                    </h2>
-                    <ul style="margin-top: 10px; padding-left: 20px;">
-                        ${appData.goals.camp ? `<li style="margin-bottom: 5px;">${isEN ? 'CAMP Sales Target' : 'CAMP 销售目标'}: ${appData.goals.camp} ${isEN ? 'people/day' : '人/天'}</li>` : ''}
-                        ${appData.goals.vexElementary ? `<li style="margin-bottom: 5px;">${isEN ? 'VEX IQ Elementary Team' : 'VEX IQ 小学赛队'}: ${appData.goals.vexElementary}</li>` : ''}
-                        ${appData.goals.vexMiddle ? `<li style="margin-bottom: 5px;">${isEN ? 'VEX IQ Middle Team' : 'VEX IQ 中学赛队'}: ${appData.goals.vexMiddle}</li>` : ''}
-                        ${appData.goals.other ? `<li style="margin-bottom: 5px;">${isEN ? 'Other' : '其他'}: ${appData.goals.other}</li>` : ''}
-                    </ul>
-                </div>
-                ` : ''}
+            // Projects
+            if (appData.projects && appData.projects.length > 0) {
+                var body = '<div style="margin-top:10px;">';
+                appData.projects.forEach(function(p) {
+                    body += '<div style="background:#f9f9f9;padding:10px 15px;border-radius:6px;border-left:3px solid #4ecdc4;margin-bottom:8px;">';
+                    body += '<strong>' + p.name + '</strong>';
+                    if (p.lead) body += '<span style="font-size:12px;color:#666;margin-left:8px;">&#128100; ' + p.lead + '</span>';
+                    if (p.duration) body += '<span style="font-size:12px;color:#666;margin-left:8px;">&#9201; ' + p.duration + (isEN?' min':'分钟') + '</span>';
+                    body += '</div>';
+                });
+                body += '</div>';
+                html += sec('#d4a853', isEN?'Interactive Projects':'互动体验项目', body);
+            }
 
-                <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #999; font-size: 12px;">
-                    <p>${isEN ? 'Generated by MAGIKID Lab Opening Assistant' : '由 MAGIKID Lab 开业助手 生成'}</p>
-                    <p>${new Date().toLocaleDateString(currentLang === 'en' ? 'en-US' : 'zh-CN')}</p>
-                </div>
-            `;
+            // Prizes
+            if (appData.prizes && appData.prizes.length > 0) {
+                var lv = {grand:isEN?'Grand Prize':'大奖',first:isEN?'1st Prize':'一等奖',second:isEN?'2nd Prize':'二等奖',third:isEN?'3rd Prize':'三等奖',participation:isEN?'Participation':'参与奖'};
+                var rows = '';
+                appData.prizes.forEach(function(p) {
+                    rows += '<tr>';
+                    rows += '<td style="padding:8px;border:1px solid #ddd;">' + p.name + '</td>';
+                    rows += '<td style="padding:8px;border:1px solid #ddd;width:100px;text-align:center;">' + (lv[p.level]||'') + '</td>';
+                    rows += '<td style="padding:8px;border:1px solid #ddd;width:60px;text-align:center;">x' + (p.quantity||1) + '</td>';
+                    rows += '</tr>';
+                });
+                html += sec('#4ecdc4', isEN?'Prizes & Rewards':'奖品设置', '<table style="width:100%;margin-top:10px;border-collapse:collapse;"><tbody>' + rows + '</tbody></table>');
+            }
 
-            document.body.appendChild(pdfContent);
+            // Budget
+            if (appData.budget && appData.budget.length > 0) {
+                var cl = {travel:isEN?'Travel':'差旅费',food:isEN?'Food':'食品',printing:isEN?'Printing':'印刷宣传品',souvenirs:isEN?'Souvenirs':'纪念品',rental:isEN?'Venue/Equipment':'场地设备',marketing:isEN?'Marketing':'市场营销',other:isEN?'Other':'其他'};
+                var thead = th(isEN?'Category':'类别') + '<th style="padding:10px;border:1px solid #ddd;text-align:right;">' + (isEN?'Amount':'预算') + '</th><th style="padding:10px;border:1px solid #ddd;text-align:right;">' + (isEN?'Spent':'实际') + '</th>' + th(isEN?'Note':'备注');
+                var rows = ''; var tAmt = 0; var tSpent = 0;
+                appData.budget.forEach(function(b) {
+                    tAmt += (b.amount||0); tSpent += (b.spent||0);
+                    rows += '<tr>';
+                    rows += '<td style="padding:10px;border:1px solid #ddd;">' + (cl[b.category]||b.category) + '</td>';
+                    rows += '<td style="padding:10px;border:1px solid #ddd;text-align:right;">$' + (b.amount||0).toLocaleString() + '</td>';
+                    rows += '<td style="padding:10px;border:1px solid #ddd;text-align:right;">$' + (b.spent||0).toLocaleString() + '</td>';
+                    rows += '<td style="padding:10px;border:1px solid #ddd;font-size:12px;color:#666;">' + (b.note||'-') + '</td>';
+                    rows += '</tr>';
+                });
+                rows += '<tr style="background:#fff9e6;font-weight:bold;">';
+                rows += '<td style="padding:10px;border:1px solid #ddd;">' + (isEN?'Total':'总计') + '</td>';
+                rows += '<td style="padding:10px;border:1px solid #ddd;text-align:right;color:#d4a853;">$' + tAmt.toLocaleString() + '</td>';
+                rows += '<td style="padding:10px;border:1px solid #ddd;text-align:right;color:#d4a853;">$' + tSpent.toLocaleString() + '</td>';
+                rows += '<td style="padding:10px;border:1px solid #ddd;"></td></tr>';
+                html += sec('#d4a853', isEN?'Budget':'活动预算', table(thead, rows));
+            }
 
-            const opt = {
-                margin: 10,
-                filename: `MAGIKID-${appData.lab.name || 'Lab'}-${isEN ? 'Opening-Plan' : '开业计划'}-${new Date().toISOString().split('T')[0]}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
+            // Goals
+            if (appData.goals && (appData.goals.camp || appData.goals.vexElementary || appData.goals.vexMiddle || appData.goals.other)) {
+                var body = '<ul style="margin-top:10px;padding-left:20px;">';
+                if (appData.goals.camp) body += '<li style="margin-bottom:5px;">' + (isEN?'CAMP Sales Target':'CAMP 销售目标') + ': ' + appData.goals.camp + ' ' + (isEN?'people/day':'人/天') + '</li>';
+                if (appData.goals.vexElementary) body += '<li style="margin-bottom:5px;">' + (isEN?'VEX IQ Elementary Team':'VEX IQ 小学赛队') + ': ' + appData.goals.vexElementary + '</li>';
+                if (appData.goals.vexMiddle) body += '<li style="margin-bottom:5px;">' + (isEN?'VEX IQ Middle Team':'VEX IQ 中学赛队') + ': ' + appData.goals.vexMiddle + '</li>';
+                if (appData.goals.other) body += '<li style="margin-bottom:5px;">' + (isEN?'Other':'其他') + ': ' + appData.goals.other + '</li>';
+                body += '</ul>';
+                html += sec('#4ecdc4', isEN?'Goals':'活动目标', body);
+            }
 
-            html2pdf().set(opt).from(pdfContent).save().then(() => {
-                document.body.removeChild(pdfContent);
+            // Promo Projects
+            if (appData.promoProjects && appData.promoProjects.length > 0) {
+                var body = '<div style="margin-top:10px;line-height:2;">';
+                appData.promoProjects.forEach(function(pid) {
+                    var prog = MAGIKID_PROGRAMS.find(function(p) { return p.id === pid; });
+                    if (prog) body += '<span style="background:#f0f9ff;border:1px solid #4ecdc4;border-radius:4px;padding:4px 10px;font-size:13px;margin:2px;display:inline-block;">' + prog.icon + ' ' + prog.name + '</span>';
+                });
+                body += '</div>';
+                html += sec('#d4a853', isEN?'Promotional Programs':'推广项目', body);
+            }
+
+            // Age Structure
+            if (appData.ageStructure) {
+                var a36 = appData.ageStructure.age36||{};
+                var a714 = appData.ageStructure.age714||{};
+                var a15 = appData.ageStructure.age15||{};
+                var totalAge = (a36.count||0)+(a714.count||0)+(a15.count||0);
+                var thead = th(isEN?'Age Group':'年龄段') + '<th style="padding:10px;border:1px solid #ddd;text-align:center;">' + (isEN?'Count':'人数') + '</th><th style="padding:10px;border:1px solid #ddd;text-align:center;">' + (isEN?'Percentage':'占比') + '</th>';
+                var rows = '';
+                rows += '<tr><td style="padding:10px;border:1px solid #ddd;">' + (isEN?'Ages 3-6':'3-6岁') + '</td><td style="padding:10px;border:1px solid #ddd;text-align:center;">' + (a36.count||0) + ' ' + (isEN?'ppl':'人') + '</td><td style="padding:10px;border:1px solid #ddd;text-align:center;">' + (a36.percent||0) + '%</td></tr>';
+                rows += '<tr><td style="padding:10px;border:1px solid #ddd;">' + (isEN?'Ages 7-14':'7-14岁') + '</td><td style="padding:10px;border:1px solid #ddd;text-align:center;">' + (a714.count||0) + ' ' + (isEN?'ppl':'人') + '</td><td style="padding:10px;border:1px solid #ddd;text-align:center;">' + (a714.percent||0) + '%</td></tr>';
+                rows += '<tr><td style="padding:10px;border:1px solid #ddd;">' + (isEN?'Ages 15+':'15岁以上') + '</td><td style="padding:10px;border:1px solid #ddd;text-align:center;">' + (a15.count||0) + ' ' + (isEN?'ppl':'人') + '</td><td style="padding:10px;border:1px solid #ddd;text-align:center;">' + (a15.percent||0) + '%</td></tr>';
+                rows += '<tr style="background:#fff9e6;font-weight:bold;"><td style="padding:10px;border:1px solid #ddd;">' + (isEN?'Total':'总计') + '</td><td style="padding:10px;border:1px solid #ddd;text-align:center;color:#d4a853;">' + totalAge + ' ' + (isEN?'ppl':'人') + '</td><td style="padding:10px;border:1px solid #ddd;"></td></tr>';
+                html += sec('#4ecdc4', isEN?'Age Coverage':'学生年龄结构', table(thead, rows));
+            }
+
+            // Staff
+            var hasStaff = (appData.staff&&(appData.staff.chiefLead||appData.staff.host))||(appData.leads&&appData.leads.length>0)||(appData.reception&&appData.reception.length>0)||(appData.vips&&appData.vips.length>0)||(appData.raffleHosts&&appData.raffleHosts.length>0);
+            if (hasStaff) {
+                var rows = '';
+                if (appData.staff&&appData.staff.chiefLead) rows += '<tr><td style="padding:8px;border:1px solid #ddd;width:30%;font-weight:bold;">' + (isEN?'Chief Lead':'总负责人') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.staff.chiefLead + '</td></tr>';
+                if (appData.staff&&appData.staff.host) rows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">' + (isEN?'Host/MC':'主持人') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.staff.host + '</td></tr>';
+                if (appData.leads&&appData.leads.length>0) rows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;vertical-align:top;">' + (isEN?'Project Leads':'项目负责人') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.leads.map(function(l){return l.name+(l.role?' ('+l.role+')':'');}).join('<br>') + '</td></tr>';
+                if (appData.reception&&appData.reception.length>0) rows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;vertical-align:top;">' + (isEN?'Reception':'客户接待') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.reception.map(function(r){return r.name+(r.role?' ('+r.role+')':'');}).join('<br>') + '</td></tr>';
+                if (appData.vips&&appData.vips.length>0) rows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;vertical-align:top;">' + (isEN?'VIP Reception':'VIP接待') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.vips.map(function(v){return v.name+(v.handler?' → '+v.handler:'');}).join('<br>') + '</td></tr>';
+                if (appData.raffleHosts&&appData.raffleHosts.length>0) rows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;vertical-align:top;">' + (isEN?'Raffle Hosts':'抽奖嘉宾') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.raffleHosts.map(function(r){return r.name+(r.title?' ('+r.title+')':'');}).join('<br>') + '</td></tr>';
+                html += sec('#d4a853', isEN?'Staff Arrangement':'人员安排', '<table style="width:100%;margin-top:10px;border-collapse:collapse;">' + rows + '</table>');
+            }
+
+            // Materials
+            var hasMaterials = (appData.posters&&appData.posters.length>0)||(appData.videos&&appData.videos.length>0)||(appData.banners&&appData.banners.length>0);
+            if (hasMaterials) {
+                var rows = '';
+                if (appData.posters&&appData.posters.length>0) rows += '<tr><td style="padding:8px;border:1px solid #ddd;width:25%;font-weight:bold;vertical-align:top;">' + (isEN?'Posters':'电子海报') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.posters.map(function(p){return p.name;}).join('<br>') + '</td></tr>';
+                if (appData.videos&&appData.videos.length>0) rows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;vertical-align:top;">' + (isEN?'Videos':'宣传视频') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.videos.map(function(v){return v.name;}).join('<br>') + '</td></tr>';
+                if (appData.banners&&appData.banners.length>0) rows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;vertical-align:top;">' + (isEN?'Banners':'易拉宝') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.banners.map(function(b){return b.name+(b.location?' - '+b.location:'');}).join('<br>') + '</td></tr>';
+                html += sec('#4ecdc4', isEN?'Materials':'物料管理', '<table style="width:100%;margin-top:10px;border-collapse:collapse;">' + rows + '</table>');
+            }
+
+            // Social Media
+            var hasSocial = (appData.social&&(appData.social.instagram||appData.social.facebook||appData.social.youtube||appData.social.xiaohongshu))||(appData.socialPosts&&appData.socialPosts.length>0);
+            if (hasSocial) {
+                var body = '';
+                if (appData.social) {
+                    var arows = '';
+                    if (appData.social.instagram) arows += '<tr><td style="padding:8px;border:1px solid #ddd;width:25%;font-weight:bold;">Instagram</td><td style="padding:8px;border:1px solid #ddd;">' + appData.social.instagram + '</td></tr>';
+                    if (appData.social.facebook) arows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">Facebook</td><td style="padding:8px;border:1px solid #ddd;">' + appData.social.facebook + '</td></tr>';
+                    if (appData.social.youtube) arows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">YouTube</td><td style="padding:8px;border:1px solid #ddd;">' + appData.social.youtube + '</td></tr>';
+                    if (appData.social.xiaohongshu) arows += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">' + (isEN?'Xiaohongshu':'小红书') + '</td><td style="padding:8px;border:1px solid #ddd;">' + appData.social.xiaohongshu + '</td></tr>';
+                    if (arows) body += '<table style="width:100%;margin-top:10px;border-collapse:collapse;">' + arows + '</table>';
+                }
+                if (appData.socialPosts&&appData.socialPosts.length>0) {
+                    var phead = '<th style="padding:8px;border:1px solid #ddd;text-align:left;width:20%;">' + (isEN?'Date':'日期') + '</th><th style="padding:8px;border:1px solid #ddd;text-align:left;width:20%;">' + (isEN?'Platform':'平台') + '</th><th style="padding:8px;border:1px solid #ddd;text-align:left;">' + (isEN?'Content':'内容') + '</th>';
+                    var prows = '';
+                    appData.socialPosts.forEach(function(p) {
+                        prows += '<tr><td style="padding:8px;border:1px solid #ddd;">' + (p.date||'-') + '</td><td style="padding:8px;border:1px solid #ddd;">' + (p.platform||'-') + '</td><td style="padding:8px;border:1px solid #ddd;font-size:13px;">' + (p.content||'-') + '</td></tr>';
+                    });
+                    body += '<table style="width:100%;margin-top:10px;border-collapse:collapse;"><thead><tr style="background:#f5f5f5;">' + phead + '</tr></thead><tbody>' + prows + '</tbody></table>';
+                }
+                html += sec('#d4a853', isEN?'Social Media':'Social Media 安排', body);
+            }
+
+            // Checklist
+            var checklistEls = document.querySelectorAll('.checklist-item');
+            if (checklistEls.length > 0) {
+                var checkItems = [];
+                checklistEls.forEach(function(el, i) {
+                    var textEl = el.querySelector('.checklist-text');
+                    checkItems.push({
+                        text: textEl ? textEl.textContent : '',
+                        checked: !!(appData.checklist && appData.checklist[i]),
+                        owner: (appData.checklistOwners && appData.checklistOwners[i]) || ''
+                    });
+                });
+                var checkedCount = checkItems.filter(function(it){return it.checked;}).length;
+                var chead = '<th style="padding:8px;border:1px solid #ddd;width:40px;text-align:center;">' + (isEN?'Done':'完成') + '</th><th style="padding:8px;border:1px solid #ddd;text-align:left;">' + (isEN?'Task':'任务') + '</th><th style="padding:8px;border:1px solid #ddd;text-align:left;width:120px;">' + (isEN?'Owner':'负责人') + '</th>';
+                var crows = '';
+                checkItems.forEach(function(item) {
+                    var bg = item.checked ? 'background:#f0fff4;' : '';
+                    var strike = item.checked ? 'text-decoration:line-through;color:#999;' : '';
+                    var icon = item.checked ? '&#10003;' : '&#9633;';
+                    var iconColor = item.checked ? '#16a34a' : '#999';
+                    crows += '<tr style="' + bg + '"><td style="padding:8px;border:1px solid #ddd;text-align:center;color:' + iconColor + ';">' + icon + '</td><td style="padding:8px;border:1px solid #ddd;' + strike + '">' + item.text + '</td><td style="padding:8px;border:1px solid #ddd;font-size:13px;color:#666;">' + (item.owner||'-') + '</td></tr>';
+                });
+                var title = (isEN?'Opening Checklist':'开业准备清单') + ' (' + checkedCount + '/' + checkItems.length + ' ' + (isEN?'completed':'完成') + ')';
+                html += sec('#4ecdc4', title, '<table style="width:100%;margin-top:10px;border-collapse:collapse;"><thead><tr style="background:#f5f5f5;">' + chead + '</tr></thead><tbody>' + crows + '</tbody></table>');
+            }
+
+            // Footer
+            html += '<div style="margin-top:40px;padding-top:20px;border-top:1px solid #ddd;text-align:center;color:#999;font-size:12px;">';
+            html += '<p>' + (isEN?'Generated by MAGIKID Lab Opening Assistant':'由 MAGIKID Lab 开业助手 生成') + '</p>';
+            html += '<p>' + new Date().toLocaleDateString(isEN?'en-US':'zh-CN') + '</p>';
+            html += '</div>';
+
+            // 用新窗口打印方式生成PDF，避免html2canvas被浏览器扩展干扰
+            var filename = 'MAGIKID-' + (appData.lab.name||'Lab') + '-' + (isEN?'Opening-Plan':'开业计划') + '-' + new Date().toISOString().split('T')[0];
+            var printWin = window.open('', '_blank', 'width=900,height=700');
+            printWin.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + filename + '</title><style>');
+            printWin.document.write('body{font-family:"Helvetica Neue",Arial,"Microsoft YaHei",sans-serif;color:#333;margin:0;padding:0;}');
+            printWin.document.write('@media print{@page{margin:15mm;size:A4;}body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}');
+            printWin.document.write('</style></head><body>');
+            printWin.document.write(html);
+            printWin.document.write('</body></html>');
+            printWin.document.close();
+            printWin.focus();
+            setTimeout(function() {
+                printWin.print();
                 btn.innerHTML = originalText;
                 btn.disabled = false;
-            }).catch(err => {
-                console.error(err);
-                document.body.removeChild(pdfContent);
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                alert(t('pdfFailed'));
-            });
+            }, 800);
         }
 
         // Load Sample Data
