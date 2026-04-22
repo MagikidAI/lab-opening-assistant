@@ -113,7 +113,7 @@ async function handlePreset() {
     if (hashQuery) labId = new URLSearchParams(hashQuery).get('labid')
   }
   if (labId) {
-    await store.initFromLabAPI(labId)
+    await store.initFromLabAPI(labId, { force: true })
   } else {
     store.resetToEmpty()
   }

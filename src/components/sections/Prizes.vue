@@ -103,7 +103,7 @@ function levelLabel(l) {
 function openAdd() { editIndex.value = -1; Object.assign(form, { name: '', type: 'raffle', level: 'participation', quantity: 1 }); showModal.value = true }
 function editPrize(i) { editIndex.value = i; Object.assign(form, store.prizes[i]); showModal.value = true }
 function save() {
-  if (!form.name) { alert(t('enterPrizeName')); return }
+  if (!form.name) { alert(t('enterPrizeName')); showModal.value = true; return }
   if (editIndex.value >= 0) store.updatePrize(editIndex.value, { ...form })
   else store.addPrize({ ...form })
   showModal.value = false

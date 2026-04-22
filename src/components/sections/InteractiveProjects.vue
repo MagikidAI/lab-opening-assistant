@@ -68,7 +68,7 @@ function typeLabel(type) {
 function openAdd() { editIndex.value = -1; Object.assign(form, { name: '', type: 'demo', lead: '', duration: '' }); showModal.value = true }
 function editProject(i) { editIndex.value = i; Object.assign(form, store.projects[i]); showModal.value = true }
 function save() {
-  if (!form.name) { alert(t('enterProjectName')); return }
+  if (!form.name) { alert(t('enterProjectName')); showModal.value = true; return }
   if (editIndex.value >= 0) store.updateProject(editIndex.value, { ...form })
   else store.addProject({ ...form })
   showModal.value = false

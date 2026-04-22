@@ -90,7 +90,7 @@ function categoryLabel(c) {
 function openAdd() { editIndex.value = -1; Object.assign(form, { category: 'other', amount: '', note: '' }); showModal.value = true }
 function editBudget(i) { editIndex.value = i; Object.assign(form, { category: store.budget[i].category, amount: store.budget[i].amount, note: store.budget[i].note || '' }); showModal.value = true }
 function save() {
-  if (!form.amount || form.amount <= 0) { alert(t('enterValidAmount')); return }
+  if (!form.amount || form.amount <= 0) { alert(t('enterValidAmount')); showModal.value = true; return }
   if (editIndex.value >= 0) store.updateBudget(editIndex.value, { ...form, amount: parseFloat(form.amount) })
   else store.addBudget({ ...form, amount: parseFloat(form.amount), spent: 0 })
   showModal.value = false

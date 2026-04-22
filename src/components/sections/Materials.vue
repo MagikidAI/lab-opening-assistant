@@ -104,19 +104,19 @@ function editVideo(i) { editIndexes.video = i; Object.assign(forms.video, store.
 function editBanner(i) { editIndexes.banner = i; Object.assign(forms.banner, store.banners[i]); modals.banner = true }
 
 function savePoster() {
-  if (!forms.poster.name) { alert(t('enterPosterName')); return }
+  if (!forms.poster.name) { alert(t('enterPosterName')); modals.poster = true; return }
   if (editIndexes.poster >= 0) store.updatePoster(editIndexes.poster, { ...forms.poster })
   else store.addPoster({ ...forms.poster })
   modals.poster = false
 }
 function saveVideo() {
-  if (!forms.video.name) { alert(t('enterVideoName')); return }
+  if (!forms.video.name) { alert(t('enterVideoName')); modals.video = true; return }
   if (editIndexes.video >= 0) store.updateVideo(editIndexes.video, { ...forms.video })
   else store.addVideo({ ...forms.video })
   modals.video = false
 }
 function saveBanner() {
-  if (!forms.banner.name) { alert(t('enterBannerName')); return }
+  if (!forms.banner.name) { alert(t('enterBannerName')); modals.banner = true; return }
   if (editIndexes.banner >= 0) store.updateBanner(editIndexes.banner, { ...forms.banner })
   else store.addBanner({ ...forms.banner })
   modals.banner = false

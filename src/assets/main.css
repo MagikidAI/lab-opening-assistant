@@ -218,10 +218,11 @@ body::before {
     background: rgba(0, 0, 0, 0.85);
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
     transition: all 0.3s;
     backdrop-filter: blur(5px);
   }
-  .modal-overlay.active { opacity: 1; visibility: visible; }
+  .modal-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
   .modal {
     background: var(--bg-card);
     @apply rounded-2xl w-11/12 overflow-y-auto;

@@ -29,7 +29,7 @@
       @add="openModal('raffle')" @edit="(i) => editModal('raffle', i)" @delete="(i) => store.deleteRaffleHost(i)" style="margin-top: 1.5rem;" />
 
     <!-- Lead Modal -->
-    <BaseModal v-model="modals.lead" :title="t('addLeadTitle')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveLead">
+    <BaseModal v-model="showLeadModal" :title="t('addLeadTitle')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveLead">
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('name') }}</label>
@@ -43,7 +43,7 @@
     </BaseModal>
 
     <!-- Reception Modal -->
-    <BaseModal v-model="modals.reception" :title="t('addReception')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveReception">
+    <BaseModal v-model="showReceptionModal" :title="t('addReception')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveReception">
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('name') }}</label>
@@ -57,7 +57,7 @@
     </BaseModal>
 
     <!-- VIP Modal -->
-    <BaseModal v-model="modals.vip" :title="t('addVIP')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveVIP">
+    <BaseModal v-model="showVipModal" :title="t('addVIP')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveVIP">
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('vipName') }}</label>
@@ -71,7 +71,7 @@
     </BaseModal>
 
     <!-- Raffle Modal -->
-    <BaseModal v-model="modals.raffle" :title="t('addRaffleGuest')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveRaffle">
+    <BaseModal v-model="showRaffleModal" :title="t('addRaffleGuest')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveRaffle">
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('guestNameLabel') }}</label>
@@ -87,7 +87,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch, onMounted, onUnmounted, defineComponent, computed } from 'vue'
+import { reactive, ref, watch, defineComponent, computed } from 'vue'
 import { useLabStore } from '@/stores/lab.js'
 import { useI18n } from '@/composables/useI18n.js'
 import SectionCard from '@/components/shared/SectionCard.vue'
@@ -108,6 +108,23 @@ const forms = reactive({
   raffle: { name: '', title: '' },
 })
 
+const showLeadModal = computed({
+  get: () => modals.lead,
+  set: (v) => { modals.lead = v }
+})
+const showReceptionModal = computed({
+  get: () => modals.reception,
+  set: (v) => { modals.reception = v }
+})
+const showVipModal = computed({
+  get: () => modals.vip,
+  set: (v) => { modals.vip = v }
+})
+const showRaffleModal = computed({
+  get: () => modals.raffle,
+  set: (v) => { modals.raffle = v }
+})
+
 function openModal(type) {
   editIndexes[type] = -1
   Object.assign(forms[type], type === 'vip' ? { name: '', handler: '' } : type === 'raffle' ? { name: '', title: '' } : { name: '', role: '' })
@@ -120,25 +137,25 @@ function editModal(type, i) {
   modals[type] = true
 }
 function saveLead() {
-  if (!forms.lead.name) { alert(t('enterName')); return }
+  if (!forms.lead.name) { alert(t('enterName')); modals.lead = true; return }
   if (editIndexes.lead >= 0) store.updateLead(editIndexes.lead, { ...forms.lead })
   else store.addLead({ ...forms.lead })
   modals.lead = false
 }
 function saveReception() {
-  if (!forms.reception.name) { alert(t('enterName')); return }
+  if (!forms.reception.name) { alert(t('enterName')); modals.reception = true; return }
   if (editIndexes.reception >= 0) store.updateReception(editIndexes.reception, { ...forms.reception })
   else store.addReception({ ...forms.reception })
   modals.reception = false
 }
 function saveVIP() {
-  if (!forms.vip.name) { alert(t('enterVIPName')); return }
+  if (!forms.vip.name) { alert(t('enterVIPName')); modals.vip = true; return }
   if (editIndexes.vip >= 0) store.updateVIP(editIndexes.vip, { ...forms.vip })
   else store.addVIP({ ...forms.vip })
   modals.vip = false
 }
 function saveRaffle() {
-  if (!forms.raffle.name) { alert(t('enterGuestName')); return }
+  if (!forms.raffle.name) { alert(t('enterGuestName')); modals.raffle = true; return }
   if (editIndexes.raffle >= 0) store.updateRaffleHost(editIndexes.raffle, { ...forms.raffle })
   else store.addRaffleHost({ ...forms.raffle })
   modals.raffle = false
@@ -146,7 +163,7 @@ function saveRaffle() {
 </script>
 
 <script>
-import { h, ref, computed, onMounted, onUnmounted } from 'vue'
+import { h, ref, computed } from 'vue'
 
 // ---- StaffInput: self-contained staff picker input ----
 const StaffInput = {
@@ -164,7 +181,7 @@ const StaffInput = {
       const q = (props.modelValue || '').toLowerCase()
       if (!q) return props.staffList
       return props.staffList.filter(s =>
-        s.name.toLowerCase().includes(q) || (s.uid || '').toLowerCase().includes(q)
+        s.name.toLowerCase().includes(q) || String(s.uid || '').toLowerCase().includes(q)
       )
     })
 
@@ -173,16 +190,12 @@ const StaffInput = {
       open.value = true
     }
     function onFocus() { open.value = true }
+    function onBlur() { setTimeout(() => { open.value = false }, 150) }
     function select(s) {
       emit('update:modelValue', s.name)
       emit('change')
       open.value = false
     }
-    function onClickOutside(e) {
-      if (wrapRef.value && !wrapRef.value.contains(e.target)) open.value = false
-    }
-    onMounted(() => document.addEventListener('click', onClickOutside))
-    onUnmounted(() => document.removeEventListener('click', onClickOutside))
 
     return () => h('div', { class: 'staff-picker-wrap', ref: wrapRef }, [
       h('input', {
@@ -193,6 +206,7 @@ const StaffInput = {
         autocomplete: 'off',
         onInput,
         onFocus,
+        onBlur,
         onChange: () => emit('change'),
       }),
       (open.value && filtered.value.length)

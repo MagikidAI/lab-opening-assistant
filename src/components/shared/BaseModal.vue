@@ -11,7 +11,7 @@
       <div class="modal-footer">
         <slot name="footer">
           <button class="btn btn-secondary" @click="$emit('update:modelValue', false)">{{ cancelText }}</button>
-          <button class="btn btn-primary" @click="$emit('confirm')">{{ confirmText }}</button>
+          <button class="btn btn-primary" @click="$emit('confirm'); $emit('update:modelValue', false)">{{ confirmText }}</button>
         </slot>
       </div>
     </div>

@@ -54,7 +54,7 @@ const form = reactive({ time: '', title: '', detail: '' })
 function openAdd() { editIndex.value = -1; Object.assign(form, { time: '', title: '', detail: '' }); showModal.value = true }
 function editItem(i) { editIndex.value = i; Object.assign(form, store.timeline[i]); showModal.value = true }
 function save() {
-  if (!form.title) { alert(t('enterActivityName')); return }
+  if (!form.title) { alert(t('enterActivityName')); showModal.value = true; return }
   if (editIndex.value >= 0) store.updateTimeline(editIndex.value, { ...form })
   else store.addTimeline({ ...form })
   showModal.value = false

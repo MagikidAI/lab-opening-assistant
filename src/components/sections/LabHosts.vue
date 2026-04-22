@@ -67,7 +67,7 @@ function editHost(i) {
   showModal.value = true
 }
 function save() {
-  if (!form.name) { alert(t('enterName')); return }
+  if (!form.name) { alert(t('enterName')); showModal.value = true; return }
   if (editIndex.value >= 0) store.updateHost(editIndex.value, { ...form })
   else store.addHost({ ...form })
   showModal.value = false

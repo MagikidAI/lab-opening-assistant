@@ -149,7 +149,7 @@ function typeLabel(type) {
 function openAdd() { editIndex.value = -1; Object.assign(form, { name: '', title: '', email: '', bio: '', type: 'vip' }); showModal.value = true }
 function editGuest(i) { editIndex.value = i; Object.assign(form, store.guests[i]); showModal.value = true }
 function save() {
-  if (!form.name) { alert(t('enterName')); return }
+  if (!form.name) { alert(t('enterName')); showModal.value = true; return }
   if (editIndex.value >= 0) store.updateGuest(editIndex.value, { ...form })
   else store.addGuest({ ...form })
   showModal.value = false
