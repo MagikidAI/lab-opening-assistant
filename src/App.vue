@@ -7,7 +7,8 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useLabStore } from '@/stores/lab.js'
 import { useI18n } from '@/composables/useI18n.js'
 import { MAGIKID_PROGRAMS } from '@/data/presets.js'
@@ -15,29 +16,34 @@ import AppHeader from '@/components/layout/AppHeader.vue'
 
 const store = useLabStore()
 const { currentLang } = useI18n()
+const route = useRoute()
+
+function getLabId() {
+  // Support both ?labid=xxx and hash-based #/?labid=xxx
+  let labId = route.query.labid
+  if (!labId) {
+    const hashQuery = window.location.hash.split('?')[1]
+    if (hashQuery) labId = new URLSearchParams(hashQuery).get('labid')
+  }
+  return labId || null
+}
+
+async function loadLab(labId) {
+  if (labId) {
+    await store.initFromLabAPI(labId)
+  } else {
+    store.resetToEmpty()
+  }
+}
 
 onMounted(async () => {
   document.documentElement.lang = currentLang.value
+  await loadLab(getLabId())
+})
 
-  // Check for labid in URL query params (supports both ?labid=xxx and hash-based #/?labid=xxx)
-  const urlParams = new URLSearchParams(window.location.search)
-  let labId = urlParams.get('labid')
-  // Also check hash query (for hash-based router: /#/?labid=xxx)
-  if (!labId) {
-    const hashQuery = window.location.hash.split('?')[1]
-    if (hashQuery) {
-      const hashParams = new URLSearchParams(hashQuery)
-      labId = hashParams.get('labid')
-    }
-  }
-
-  if (labId) {
-    // Fetch lab info and pre-fill, clear everything else
-    await store.initFromLabAPI(labId)
-  } else {
-    // No labid: reset everything to blank state
-    store.resetToEmpty()
-  }
+// 监听 URL query 变化，支持手动修改 labid 后按 Enter 立即生效
+watch(() => route.query.labid, (newLabId) => {
+  loadLab(newLabId || null)
 })
 
 function handleExportPDF() {
