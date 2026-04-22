@@ -1,17 +1,21 @@
 import { defineStore } from 'pinia'
+import axios from 'axios'
 import { LAS_VEGAS_DATA } from '@/data/presets.js'
 
 const STORAGE_KEY = 'magikidLabAssistant'
 
 const defaultState = () => ({
   lab: {
-    name: 'MAGIKID Las Vegas Lab',
-    openingDate: '2026-05-16',
-    address: 'Las Vegas, NV',
+    name: '',
+    nameCn: '',
+    openingDate: '',
+    address: '',
     phone: ''
   },
+  availableStaff: [], // staff list fetched from API: [{ uid, name }]
   hosts: [],
   guests: [],
+
   timeline: [],
   projects: [],
   prizes: [],
@@ -208,6 +212,34 @@ export const useLabStore = defineStore('lab', {
     saveDiscounts(discounts) { this.discounts = { ...this.discounts, ...discounts }; this.saveData() },
     savePromoProjects(list) { this.promoProjects = list; this.saveData() },
     saveAgeStructure(s) { this.ageStructure = { ...this.ageStructure, ...s }; this.saveData() },
+
+    // ---- Lab API init ----
+    async initFromLabAPI(labId) {
+      try {
+        const res = await axios.post('https://api.magikidlab.com/lab-opening-assistant/get-lab-info', { labid: labId })
+        const data = res.data?.result ?? res.data
+        console.log('[lab-api] raw:', res.data, '→ using:', data)
+        // Reset everything to empty first
+        this.$patch(defaultState())
+        // Then pre-fill lab info from API
+        this.lab = {
+          name: data.labName || '',
+          nameCn: data.labNameCn || '',
+          openingDate: '',
+          address: data.address || '',
+          phone: data.tel || ''
+        }
+        this.availableStaff = Array.isArray(data.staff) ? data.staff : []
+        this.saveData()
+      } catch (e) {
+        console.error('Failed to fetch lab info:', e)
+      }
+    },
+
+    resetToEmpty() {
+      this.$patch(defaultState())
+      localStorage.removeItem(STORAGE_KEY)
+    },
   }
 })
 

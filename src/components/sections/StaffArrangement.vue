@@ -4,11 +4,11 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
       <div class="flex flex-col gap-2">
         <label class="form-label"><i class="fas fa-crown mr-1" style="color: var(--accent-gold);"></i> {{ t('chiefLead') }}</label>
-        <input class="form-input" type="text" v-model="staff.chiefLead" @change="store.saveStaff(staff)" placeholder="负责人姓名">
+        <StaffInput v-model="staff.chiefLead" placeholder="负责人姓名" :staffList="store.availableStaff" @change="store.saveStaff(staff)" />
       </div>
       <div class="flex flex-col gap-2">
         <label class="form-label"><i class="fas fa-microphone mr-1" style="color: var(--accent-cyan);"></i> {{ t('host') }}</label>
-        <input class="form-input" type="text" v-model="staff.host" @change="store.saveStaff(staff)" placeholder="主持人姓名">
+        <StaffInput v-model="staff.host" placeholder="主持人姓名" :staffList="store.availableStaff" @change="store.saveStaff(staff)" />
       </div>
     </div>
 
@@ -31,39 +31,63 @@
     <!-- Lead Modal -->
     <BaseModal v-model="modals.lead" :title="t('addLeadTitle')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveLead">
       <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('name') }}</label><input class="form-input" type="text" v-model="forms.lead.name"></div>
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('roleLabel') }}</label><input class="form-input" type="text" v-model="forms.lead.role"></div>
+        <div class="flex flex-col gap-2">
+          <label class="form-label">{{ t('name') }}</label>
+          <StaffInput v-model="forms.lead.name" :staffList="store.availableStaff" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="form-label">{{ t('roleLabel') }}</label>
+          <input class="form-input" type="text" v-model="forms.lead.role">
+        </div>
       </div>
     </BaseModal>
 
     <!-- Reception Modal -->
     <BaseModal v-model="modals.reception" :title="t('addReception')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveReception">
       <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('name') }}</label><input class="form-input" type="text" v-model="forms.reception.name"></div>
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('roleLabel') }}</label><input class="form-input" type="text" v-model="forms.reception.role"></div>
+        <div class="flex flex-col gap-2">
+          <label class="form-label">{{ t('name') }}</label>
+          <StaffInput v-model="forms.reception.name" :staffList="store.availableStaff" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="form-label">{{ t('roleLabel') }}</label>
+          <input class="form-input" type="text" v-model="forms.reception.role">
+        </div>
       </div>
     </BaseModal>
 
     <!-- VIP Modal -->
     <BaseModal v-model="modals.vip" :title="t('addVIP')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveVIP">
       <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('vipName') }}</label><input class="form-input" type="text" v-model="forms.vip.name"></div>
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('vipHandler') }}</label><input class="form-input" type="text" v-model="forms.vip.handler"></div>
+        <div class="flex flex-col gap-2">
+          <label class="form-label">{{ t('vipName') }}</label>
+          <input class="form-input" type="text" v-model="forms.vip.name">
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="form-label">{{ t('vipHandler') }}</label>
+          <StaffInput v-model="forms.vip.handler" :staffList="store.availableStaff" />
+        </div>
       </div>
     </BaseModal>
 
     <!-- Raffle Modal -->
     <BaseModal v-model="modals.raffle" :title="t('addRaffleGuest')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveRaffle">
       <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('guestNameLabel') }}</label><input class="form-input" type="text" v-model="forms.raffle.name"></div>
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('title') }}</label><input class="form-input" type="text" v-model="forms.raffle.title"></div>
+        <div class="flex flex-col gap-2">
+          <label class="form-label">{{ t('guestNameLabel') }}</label>
+          <StaffInput v-model="forms.raffle.name" :staffList="store.availableStaff" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="form-label">{{ t('title') }}</label>
+          <input class="form-input" type="text" v-model="forms.raffle.title">
+        </div>
       </div>
     </BaseModal>
   </SectionCard>
 </template>
 
 <script setup>
-import { reactive, watch } from 'vue'
+import { reactive, ref, watch, onMounted, onUnmounted, defineComponent, computed } from 'vue'
 import { useLabStore } from '@/stores/lab.js'
 import { useI18n } from '@/composables/useI18n.js'
 import SectionCard from '@/components/shared/SectionCard.vue'
@@ -95,7 +119,6 @@ function editModal(type, i) {
   Object.assign(forms[type], items[i])
   modals[type] = true
 }
-
 function saveLead() {
   if (!forms.lead.name) { alert(t('enterName')); return }
   if (editIndexes.lead >= 0) store.updateLead(editIndexes.lead, { ...forms.lead })
@@ -123,34 +146,136 @@ function saveRaffle() {
 </script>
 
 <script>
-// SubList as local component
-import { h } from 'vue'
+import { h, ref, computed, onMounted, onUnmounted } from 'vue'
+
+// ---- StaffInput: self-contained staff picker input ----
+const StaffInput = {
+  props: {
+    modelValue: { type: String, default: '' },
+    staffList: { type: Array, default: () => [] },
+    placeholder: { type: String, default: '' },
+  },
+  emits: ['update:modelValue', 'change'],
+  setup(props, { emit }) {
+    const open = ref(false)
+    const wrapRef = ref(null)
+
+    const filtered = computed(() => {
+      const q = (props.modelValue || '').toLowerCase()
+      if (!q) return props.staffList
+      return props.staffList.filter(s =>
+        s.name.toLowerCase().includes(q) || (s.uid || '').toLowerCase().includes(q)
+      )
+    })
+
+    function onInput(e) {
+      emit('update:modelValue', e.target.value)
+      open.value = true
+    }
+    function onFocus() { open.value = true }
+    function select(s) {
+      emit('update:modelValue', s.name)
+      emit('change')
+      open.value = false
+    }
+    function onClickOutside(e) {
+      if (wrapRef.value && !wrapRef.value.contains(e.target)) open.value = false
+    }
+    onMounted(() => document.addEventListener('click', onClickOutside))
+    onUnmounted(() => document.removeEventListener('click', onClickOutside))
+
+    return () => h('div', { class: 'staff-picker-wrap', ref: wrapRef }, [
+      h('input', {
+        class: 'form-input',
+        type: 'text',
+        value: props.modelValue,
+        placeholder: props.placeholder,
+        autocomplete: 'off',
+        onInput,
+        onFocus,
+        onChange: () => emit('change'),
+      }),
+      (open.value && filtered.value.length)
+        ? h('div', { class: 'staff-dropdown' },
+            filtered.value.map(s =>
+              h('div', {
+                class: 'staff-dropdown-item',
+                onMousedown: (e) => { e.preventDefault(); select(s) }
+              }, [
+                h('span', { class: 'staff-name' }, s.name),
+                h('span', { class: 'staff-uid' }, s.uid || ''),
+              ])
+            )
+          )
+        : null
+    ])
+  }
+}
+
+// ---- SubList ----
+import { h as hh } from 'vue'
 const SubList = {
   props: ['title', 'items', 'emptyMsg'],
   emits: ['add', 'edit', 'delete'],
   setup(props, { emit }) {
-    return () => h('div', [
-      h('h4', { style: 'margin-bottom: 1rem; color: var(--text-secondary);' }, props.title),
+    return () => hh('div', [
+      hh('h4', { style: 'margin-bottom: 1rem; color: var(--text-secondary);' }, props.title),
       props.items.length === 0
-        ? h('p', { style: 'color: var(--text-muted); font-size: 0.875rem;' }, props.emptyMsg)
-        : props.items.map((item, i) => h('div', {
+        ? hh('p', { style: 'color: var(--text-muted); font-size: 0.875rem;' }, props.emptyMsg)
+        : props.items.map((item, i) => hh('div', {
             class: 'list-item', style: 'padding: 0.75rem 1rem; margin-bottom: 0.5rem;'
           }, [
-            h('div', { class: 'list-item-content' }, [
-              h('div', { class: 'list-item-title' }, item.name),
-              h('div', { class: 'list-item-subtitle' }, item.role || item.handler || item.title || ''),
+            hh('div', { class: 'list-item-content' }, [
+              hh('div', { class: 'list-item-title' }, item.name),
+              hh('div', { class: 'list-item-subtitle' }, item.role || item.handler || item.title || ''),
             ]),
-            h('div', { class: 'list-item-actions' }, [
-              h('button', { class: 'btn btn-secondary btn-icon', onClick: () => emit('edit', i) }, h('i', { class: 'fas fa-edit' })),
-              h('button', { class: 'btn btn-secondary btn-icon', onClick: () => emit('delete', i) }, h('i', { class: 'fas fa-trash' })),
+            hh('div', { class: 'list-item-actions' }, [
+              hh('button', { class: 'btn btn-secondary btn-icon', onClick: () => emit('edit', i) }, hh('i', { class: 'fas fa-edit' })),
+              hh('button', { class: 'btn btn-secondary btn-icon', onClick: () => emit('delete', i) }, hh('i', { class: 'fas fa-trash' })),
             ])
           ])),
-      h('button', { class: 'btn btn-secondary btn-sm mt-3', onClick: () => emit('add') }, [
-        h('i', { class: 'fas fa-plus' }),
+      hh('button', { class: 'btn btn-secondary btn-sm mt-3', onClick: () => emit('add') }, [
+        hh('i', { class: 'fas fa-plus' }),
         ' 添加'
       ])
     ])
   }
 }
-export default { components: { SubList } }
+
+export default { components: { SubList, StaffInput } }
 </script>
+
+<style scoped>
+.staff-picker-wrap {
+  position: relative;
+}
+.staff-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--card-bg, #1e2a3a);
+  border: 1px solid var(--border-color, rgba(255,255,255,0.1));
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  max-height: 200px;
+  overflow-y: auto;
+}
+.staff-dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  gap: 0.5rem;
+}
+.staff-dropdown-item:first-child { border-radius: 8px 8px 0 0; }
+.staff-dropdown-item:last-child  { border-radius: 0 0 8px 8px; }
+.staff-dropdown-item:hover { background: rgba(212,168,83,0.15); }
+.staff-name { font-size: 0.9rem; color: var(--text-primary, #e8e8e8); font-weight: 500; }
+.staff-uid  { font-size: 0.75rem; color: var(--text-muted, #888); font-family: monospace; }
+</style>
+
+

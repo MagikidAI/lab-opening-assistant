@@ -15,13 +15,27 @@ import AppHeader from '@/components/layout/AppHeader.vue'
 const store = useLabStore()
 const { currentLang } = useI18n()
 
-onMounted(() => {
+onMounted(async () => {
   document.documentElement.lang = currentLang.value
-  store.loadData()
-  if (!localStorage.getItem('magikidLabAssistant')) {
-    if (confirm('是否加载 Las Vegas Lab 预设数据？')) {
-      store.loadPreset()
+
+  // Check for labid in URL query params (supports both ?labid=xxx and hash-based #/?labid=xxx)
+  const urlParams = new URLSearchParams(window.location.search)
+  let labId = urlParams.get('labid')
+  // Also check hash query (for hash-based router: /#/?labid=xxx)
+  if (!labId) {
+    const hashQuery = window.location.hash.split('?')[1]
+    if (hashQuery) {
+      const hashParams = new URLSearchParams(hashQuery)
+      labId = hashParams.get('labid')
     }
+  }
+
+  if (labId) {
+    // Fetch lab info and pre-fill, clear everything else
+    await store.initFromLabAPI(labId)
+  } else {
+    // No labid: reset everything to blank state
+    store.resetToEmpty()
   }
 })
 

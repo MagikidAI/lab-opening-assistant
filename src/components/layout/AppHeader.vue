@@ -16,19 +16,11 @@
 
       <!-- Actions -->
       <div class="flex gap-3 items-center flex-wrap">
-        <!-- Lab Selector -->
-        <div class="flex items-center gap-3 px-4 py-2 rounded-lg" style="background: var(--bg-card); border: 1px solid var(--border-color);">
-          <i class="fas fa-building" style="color: var(--text-secondary);"></i>
-          <select class="bg-transparent border-0 text-sm cursor-pointer outline-none" style="color: var(--text-primary);" :value="currentLabId" @change="handleLabChange($event.target.value)">
-            <option v-for="lab in labOptions" :key="lab.value" :value="lab.value" style="background: var(--bg-card);">{{ lab.label }}</option>
-          </select>
-        </div>
-
         <button class="btn btn-secondary" @click="handlePreset" :title="t('presetDataTitle')">
           <i class="fas fa-magic"></i> <span class="hidden sm:inline">{{ t('preset') }}</span>
         </button>
         <button class="btn btn-secondary" @click="showAchievements = true" title="MAGIKID成就">
-          <i class="fas fa-trophy"></i>
+          <i class="fas fa-trophy"></i> <span class="hidden sm:inline">成就</span>
         </button>
         <button class="btn btn-secondary font-semibold min-w-[70px]" @click="toggleLanguage">
           🌐 {{ currentLang === 'zh' ? 'CN' : 'EN' }}
@@ -47,7 +39,7 @@
     </div>
 
     <!-- Achievements Modal -->
-    <div v-if="showAchievements" class="modal-overlay active" @click.self="showAchievements = false">
+    <div v-if="showAchievements" class="modal-overlay active" style="align-items: flex-start; padding-top: 5vh;" @click.self="showAchievements = false">
       <div class="modal" style="max-width: 700px;">
         <div class="modal-header">
           <h3>🏆 MAGIKID Achievements</h3>
@@ -112,11 +104,20 @@ function handleLabChange(value) {
   }
 }
 
-function handlePreset() {
-  if (confirm(t('loadPreset'))) {
-    store.loadPreset()
-    alert(t('loadSuccess'))
+async function handlePreset() {
+  if (!confirm(t('loadPreset'))) return
+  const urlParams = new URLSearchParams(window.location.search)
+  let labId = urlParams.get('labid')
+  if (!labId) {
+    const hashQuery = window.location.hash.split('?')[1]
+    if (hashQuery) labId = new URLSearchParams(hashQuery).get('labid')
   }
+  if (labId) {
+    await store.initFromLabAPI(labId)
+  } else {
+    store.resetToEmpty()
+  }
+  alert(t('loadSuccess'))
 }
 
 function triggerLoad() { fileInput.value.click() }

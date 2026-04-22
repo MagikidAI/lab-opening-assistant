@@ -10,12 +10,12 @@
         <input class="form-input" type="date" v-model="lab.openingDate" @change="store.saveLab(lab)">
       </div>
       <div class="flex flex-col gap-2">
-        <label class="form-label">{{ t('labAddress') }}</label>
-        <input class="form-input" type="text" v-model="lab.address" @change="store.saveLab(lab)" placeholder="详细地址">
-      </div>
-      <div class="flex flex-col gap-2">
         <label class="form-label">{{ t('labPhone') }}</label>
         <input class="form-input" type="tel" v-model="lab.phone" @change="store.saveLab(lab)" placeholder="联系方式">
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="form-label">{{ t('labAddress') }}</label>
+        <input class="form-input" type="text" v-model="lab.address" @change="store.saveLab(lab)" placeholder="详细地址">
       </div>
     </div>
   </SectionCard>
