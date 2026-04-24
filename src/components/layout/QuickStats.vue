@@ -4,7 +4,7 @@
       <div class="quick-stat-icon gold"><i class="fas fa-calendar-check"></i></div>
       <div class="quick-stat-info">
         <div class="number">{{ store.daysLeft > 0 ? store.daysLeft : t('opened') }}</div>
-        <div class="label">{{ t('daysLeft') }}</div>
+        <div class="label" v-if="store.daysLeft > 0">{{ t('daysLeft') }}</div>
       </div>
     </div>
     <div class="quick-stat">
