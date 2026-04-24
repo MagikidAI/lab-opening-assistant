@@ -55,21 +55,21 @@
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('emailSubjectLabel') }}</label>
-          <input class="form-input" type="text" v-model="emailSubject" placeholder="MAGIKID Lab 开业典礼邀请函">
+          <input class="form-input" type="text" v-model="emailSubject" :placeholder="t('emailSubjectPlaceholder')">
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('emailPreviewLabel') }}</label>
           <div class="email-preview" ref="emailPreviewEl">
             <div class="text-center pb-4 mb-4" style="border-bottom: 2px solid var(--accent-cyan);">
               <div class="text-2xl font-bold tracking-wide uppercase" style="color: var(--accent-cyan);">MAGIKID</div>
-              <p>诚挚邀请您参加开业典礼</p>
+              <p>{{ t('emailInviteTitle') }}</p>
             </div>
-            <p>尊敬的 [嘉宾姓名]，</p>
-            <p>我们非常荣幸地邀请您参加 <strong>{{ store.lab.name }} 开业典礼</strong>。</p>
-            <p><strong>日期：</strong>{{ store.lab.openingDate }}</p>
-            <p><strong>地点：</strong>{{ store.lab.address }}</p>
-            <p>届时将有精彩的活动安排，期待您的光临！</p>
-            <p>此致</p>
+            <p>{{ t('emailSalutation') }}</p>
+            <p>{{ t('emailBodyIntro') }} <strong>{{ store.lab.name }} {{ t('emailBodyOpening') }}</strong>{{ currentLang === 'zh' ? '。' : '.' }}</p>
+            <p><strong>{{ t('emailDateLabel') }}</strong>{{ store.lab.openingDate }}</p>
+            <p><strong>{{ t('emailPlaceLabel') }}</strong>{{ store.lab.address }}</p>
+            <p>{{ t('emailBodyClose') }}</p>
+            <p>{{ t('emailSignoff') }}</p>
             <p><strong>MAGIKID Team</strong></p>
           </div>
         </div>
@@ -82,11 +82,11 @@
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('name') }}</label>
-          <input class="form-input" type="text" v-model="form.name" placeholder="嘉宾姓名">
+          <input class="form-input" type="text" v-model="form.name" :placeholder="t('guestNamePlaceholder')">
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('title') }}</label>
-          <input class="form-input" type="text" v-model="form.title" placeholder="如：市长、议员等">
+          <input class="form-input" type="text" v-model="form.title" :placeholder="t('guestTitlePlaceholder')">
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('email') }}</label>
@@ -94,12 +94,12 @@
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('bio') }}</label>
-          <textarea class="form-textarea" v-model="form.bio" placeholder="嘉宾简介..."></textarea>
+          <textarea class="form-textarea" v-model="form.bio" :placeholder="t('guestBioPlaceholder')"></textarea>
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('type') }}</label>
           <select class="form-select" v-model="form.type">
-            <option value="vip">VIP（政商名流）</option>
+            <option value="vip">{{ t('vipFull') }}</option>
             <option value="speaker">{{ t('speaker') }}</option>
             <option value="media">{{ t('media') }}</option>
             <option value="parent">{{ t('parent') }}</option>
@@ -120,7 +120,7 @@ import BaseModal from '@/components/shared/BaseModal.vue'
 import EmptyState from '@/components/shared/EmptyState.vue'
 
 const store = useLabStore()
-const { t } = useI18n()
+const { t, currentLang } = useI18n()
 
 const activeTab = ref('list')
 const tabs = [
@@ -133,7 +133,7 @@ const showModal = ref(false)
 const editIndex = ref(-1)
 const form = reactive({ name: '', title: '', email: '', bio: '', type: 'vip' })
 
-const emailSubject = ref('MAGIKID Lab 开业典礼邀请函')
+const emailSubject = ref(t('emailSubjectPlaceholder'))
 const emailPaste = ref('')
 const importPreview = ref([])
 const fileImportInput = ref(null)
@@ -162,14 +162,14 @@ function handleFileImport(e) {
   reader.onload = (ev) => {
     const emails = ev.target.result.split(/[\n,;]/).filter(e => e.trim() && e.includes('@'))
     emailPaste.value = emails.join('\n')
-    alert(`检测到 ${emails.length} 个邮箱地址`)
+    alert(t('emailDetected').replace('{n}', emails.length))
   }
   reader.readAsText(file)
 }
 
 function importEmails() {
   const emails = emailPaste.value.split('\n').filter(e => e.trim() && e.includes('@'))
-  if (emails.length === 0) { alert('未找到有效的邮箱地址'); return }
+  if (emails.length === 0) { alert(t('noValidEmail')); return }
   importPreview.value = emails.map(e => e.trim())
 }
 

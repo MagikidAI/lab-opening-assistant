@@ -11,7 +11,7 @@ import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLabStore } from '@/stores/lab.js'
 import { useI18n } from '@/composables/useI18n.js'
-import { MAGIKID_PROGRAMS } from '@/data/presets.js'
+import { getMagikidPrograms } from '@/data/presets.js'
 import AppHeader from '@/components/layout/AppHeader.vue'
 
 const store = useLabStore()
@@ -179,7 +179,7 @@ function generatePDF() {
   if (s.promoProjects?.length) {
     let body = '<div style="margin-top:10px;line-height:2;">'
     s.promoProjects.forEach(pid => {
-      const prog = MAGIKID_PROGRAMS.find(p => p.id === pid)
+      const prog = getMagikidPrograms().find(p => p.id === pid)
       if (prog) body += `<span style="background:#f0f9ff;border:1px solid #4ecdc4;border-radius:4px;padding:4px 10px;font-size:13px;margin:2px;display:inline-block;">${prog.icon} ${prog.name}</span>`
     })
     body += '</div>'

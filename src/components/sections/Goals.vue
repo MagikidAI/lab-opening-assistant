@@ -16,7 +16,7 @@
     </div>
     <div class="flex flex-col gap-2 mt-4">
       <label class="form-label">{{ t('otherGoals') }}</label>
-      <textarea class="form-textarea" v-model="goals.other" @change="store.saveGoals(goals)" placeholder="其他活动目标..."></textarea>
+      <textarea class="form-textarea" v-model="goals.other" @change="store.saveGoals(goals)" :placeholder="t('otherGoalsPlaceholder')"></textarea>
     </div>
   </SectionCard>
 </template>

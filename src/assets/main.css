@@ -129,15 +129,16 @@ body::before {
   /* List Item */
   .list-item {
     background: var(--bg-secondary);
-    @apply rounded-xl px-5 py-4 flex justify-between items-start;
+    @apply rounded-xl px-5 py-4 flex flex-wrap justify-between items-start gap-x-4 gap-y-4;
     border: 1px solid transparent;
     transition: border-color 0.2s;
   }
   .list-item:hover { border-color: var(--border-color); }
+  .list-item-content { @apply flex-1 min-w-0; }
   .list-item-title { @apply font-semibold mb-1; }
   .list-item-subtitle { @apply text-sm; color: var(--text-secondary); }
   .list-item-meta { @apply flex gap-2 mt-2 flex-wrap; }
-  .list-item-actions { @apply flex gap-2 items-center; }
+  .list-item-actions { @apply flex gap-2 items-center flex-shrink-0 ml-auto; margin-top: 1rem; }
 
   .meta-tag {
     background: var(--bg-card);
@@ -172,7 +173,7 @@ body::before {
   .timeline-item::before {
     content: '';
     position: absolute;
-    left: -1.625rem; top: 1.25rem;
+    left: -1.875rem; top: 1.25rem;
     width: 14px; height: 14px;
     background: var(--accent-cyan);
     border-radius: 50%;

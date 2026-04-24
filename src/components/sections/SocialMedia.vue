@@ -39,7 +39,7 @@
 
     <BaseModal v-model="showModal" :title="t('addPost')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="save">
       <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('postDate') }}</label><input class="form-input" type="date" v-model="form.date"></div>
+        <div class="flex flex-col gap-2"><label class="form-label">{{ t('postDate') }}</label><LocaleDatePicker v-model="form.date" /></div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('platform') }}</label>
           <select class="form-select" v-model="form.platform">
@@ -50,7 +50,7 @@
             <option value="all">{{ t('allPlatforms') }}</option>
           </select>
         </div>
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('postContent') }}</label><textarea class="form-textarea" v-model="form.content" placeholder="发布内容..."></textarea></div>
+        <div class="flex flex-col gap-2"><label class="form-label">{{ t('postContent') }}</label><textarea class="form-textarea" v-model="form.content" :placeholder="t('postContentPlaceholder')"></textarea></div>
       </div>
     </BaseModal>
   </SectionCard>
@@ -62,6 +62,7 @@ import { useLabStore } from '@/stores/lab.js'
 import { useI18n } from '@/composables/useI18n.js'
 import SectionCard from '@/components/shared/SectionCard.vue'
 import BaseModal from '@/components/shared/BaseModal.vue'
+import LocaleDatePicker from '@/components/shared/LocaleDatePicker.vue'
 
 const store = useLabStore()
 const { t } = useI18n()

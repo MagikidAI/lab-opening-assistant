@@ -4,28 +4,28 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
       <div class="flex flex-col gap-2">
         <label class="form-label"><i class="fas fa-crown mr-1" style="color: var(--accent-gold);"></i> {{ t('chiefLead') }}</label>
-        <StaffInput v-model="staff.chiefLead" placeholder="负责人姓名" :staffList="store.availableStaff" @change="store.saveStaff(staff)" />
+        <StaffInput v-model="staff.chiefLead" :placeholder="t('leadNamePlaceholder')" :staffList="store.availableStaff" @change="store.saveStaff(staff)" />
       </div>
       <div class="flex flex-col gap-2">
         <label class="form-label"><i class="fas fa-microphone mr-1" style="color: var(--accent-cyan);"></i> {{ t('host') }}</label>
-        <StaffInput v-model="staff.host" placeholder="主持人姓名" :staffList="store.availableStaff" @change="store.saveStaff(staff)" />
+        <StaffInput v-model="staff.host" :placeholder="t('hostNamePlaceholder')" :staffList="store.availableStaff" @change="store.saveStaff(staff)" />
       </div>
     </div>
 
     <!-- Project Leads -->
-    <SubList :title="t('projectLeadTitle')" :items="store.leads" :emptyMsg="t('noLeads')"
+    <SubList :title="t('projectLeadTitle')" :items="store.leads" :emptyMsg="t('noLeads')" :addLabel="t('add')"
       @add="openModal('lead')" @edit="(i) => editModal('lead', i)" @delete="(i) => store.deleteLead(i)" />
 
     <!-- Reception -->
-    <SubList :title="t('receptionTitle')" :items="store.reception" :emptyMsg="t('noReception')"
+    <SubList :title="t('receptionTitle')" :items="store.reception" :emptyMsg="t('noReception')" :addLabel="t('add')"
       @add="openModal('reception')" @edit="(i) => editModal('reception', i)" @delete="(i) => store.deleteReception(i)" style="margin-top: 1.5rem;" />
 
     <!-- VIP -->
-    <SubList :title="t('vipReception')" :items="store.vips" :emptyMsg="t('noVIP')"
+    <SubList :title="t('vipReception')" :items="store.vips" :emptyMsg="t('noVIP')" :addLabel="t('add')"
       @add="openModal('vip')" @edit="(i) => editModal('vip', i)" @delete="(i) => store.deleteVIP(i)" style="margin-top: 1.5rem;" />
 
     <!-- Raffle Hosts -->
-    <SubList :title="t('raffleHost')" :items="store.raffleHosts" :emptyMsg="t('noRaffleGuest')"
+    <SubList :title="t('raffleHost')" :items="store.raffleHosts" :emptyMsg="t('noRaffleGuest')" :addLabel="t('add')"
       @add="openModal('raffle')" @edit="(i) => editModal('raffle', i)" @delete="(i) => store.deleteRaffleHost(i)" style="margin-top: 1.5rem;" />
 
     <!-- Lead Modal -->
@@ -229,7 +229,7 @@ const StaffInput = {
 // ---- SubList ----
 import { h as hh } from 'vue'
 const SubList = {
-  props: ['title', 'items', 'emptyMsg'],
+  props: ['title', 'items', 'emptyMsg', 'addLabel'],
   emits: ['add', 'edit', 'delete'],
   setup(props, { emit }) {
     return () => hh('div', [
@@ -250,7 +250,7 @@ const SubList = {
           ])),
       hh('button', { class: 'btn btn-secondary btn-sm mt-3', onClick: () => emit('add') }, [
         hh('i', { class: 'fas fa-plus' }),
-        ' 添加'
+        ' ' + (props.addLabel || '')
       ])
     ])
   }

@@ -10,14 +10,14 @@
         <button class="btn-icon" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; width: 28px; height: 28px;" @click.stop="toggleEdit(i)">
           <i :class="editing[i] ? 'fas fa-check' : 'fas fa-pen'" style="font-size: 0.75rem;"></i>
         </button>
-        <input type="text" class="text-right text-sm" style="width: 100px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem 0.4rem; color: var(--accent-cyan);" :placeholder="'负责人'" :value="store.checklistOwners[i]" @input="store.updateChecklistOwner(i, $event.target.value)">
+        <input type="text" class="text-right text-sm" style="width: 100px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem 0.4rem; color: var(--accent-cyan);" :placeholder="t('checklistOwnerPlaceholder')" :value="store.checklistOwners[i]" @input="store.updateChecklistOwner(i, $event.target.value)">
       </div>
     </div>
     <div class="progress-bar mt-6">
       <div class="progress-fill" :style="{ width: store.checklistProgress + '%' }"></div>
     </div>
     <p class="text-center mt-2 text-sm" style="color: var(--text-secondary);">
-      {{ store.checklist.filter(Boolean).length }}/{{ store.checklist.length }} 完成
+      {{ store.checklist.filter(Boolean).length }}/{{ store.checklist.length }} {{ t('completed') }}
     </p>
   </SectionCard>
 </template>
@@ -26,13 +26,18 @@
 import { ref, computed } from 'vue'
 import { useLabStore } from '@/stores/lab.js'
 import { useI18n } from '@/composables/useI18n.js'
-import { DEFAULT_CHECKLIST_ITEMS } from '@/stores/lab.js'
 import SectionCard from '@/components/shared/SectionCard.vue'
 
 const store = useLabStore()
-const { t } = useI18n()
+const { t, currentLang } = useI18n()
 
-const checklistItems = computed(() => store.checklistItems || DEFAULT_CHECKLIST_ITEMS)
+// Use translations-provided default list; user-edited items (store.checklistItems) override.
+const defaultItems = computed(() => {
+  // Access currentLang to make this reactive on language toggle.
+  void currentLang.value
+  return t('checklistItems')
+})
+const checklistItems = computed(() => store.checklistItems || defaultItems.value)
 const editing = ref(Array(15).fill(false))
 const editTexts = ref([...checklistItems.value])
 

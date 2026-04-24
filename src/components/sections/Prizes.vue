@@ -47,7 +47,7 @@
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('prizeName') }}</label>
-          <input class="form-input" type="text" v-model="form.name" placeholder="如：免费夏令营一天">
+          <input class="form-input" type="text" v-model="form.name" :placeholder="t('prizePlaceholder')">
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('prizeType') }}</label>

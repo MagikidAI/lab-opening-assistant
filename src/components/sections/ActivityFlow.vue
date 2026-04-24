@@ -26,11 +26,11 @@
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('activityName') }}</label>
-          <input class="form-input" type="text" v-model="form.title" placeholder="如：开业典礼、剪彩仪式">
+          <input class="form-input" type="text" v-model="form.title" :placeholder="t('activityPlaceholder')">
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('details') }}</label>
-          <textarea class="form-textarea" v-model="form.detail" placeholder="活动详情、涉及人员等..."></textarea>
+          <textarea class="form-textarea" v-model="form.detail" :placeholder="t('activityDetailPlaceholder')"></textarea>
         </div>
       </div>
     </BaseModal>

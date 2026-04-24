@@ -75,7 +75,7 @@
     <BaseModal v-model="modals.banner" :title="t('addBanner')" :confirmText="t('add')" :cancelText="t('cancel')" @confirm="saveBanner">
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2"><label class="form-label">{{ t('bannerName') }}</label><input class="form-input" type="text" v-model="forms.banner.name"></div>
-        <div class="flex flex-col gap-2"><label class="form-label">{{ t('location') }}</label><input class="form-input" type="text" v-model="forms.banner.location" placeholder="摆放位置"></div>
+        <div class="flex flex-col gap-2"><label class="form-label">{{ t('location') }}</label><input class="form-input" type="text" v-model="forms.banner.location" :placeholder="t('bannerLocationPlaceholder')"></div>
       </div>
     </BaseModal>
   </SectionCard>

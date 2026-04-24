@@ -63,7 +63,7 @@
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('note') }}</label>
-          <input class="form-input" type="text" v-model="form.note" placeholder="备注信息">
+          <input class="form-input" type="text" v-model="form.note" :placeholder="t('budgetNotePlaceholder')">
         </div>
       </div>
     </BaseModal>

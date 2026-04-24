@@ -10,15 +10,15 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useLabStore } from '@/stores/lab.js'
 import { useI18n } from '@/composables/useI18n.js'
-import { MAGIKID_PROGRAMS } from '@/data/presets.js'
+import { getMagikidPrograms } from '@/data/presets.js'
 import SectionCard from '@/components/shared/SectionCard.vue'
 
 const store = useLabStore()
-const { t } = useI18n()
-const programs = MAGIKID_PROGRAMS
+const { t, currentLang } = useI18n()
+const programs = computed(() => getMagikidPrograms(currentLang.value))
 const selected = ref([...store.promoProjects])
 watch(() => store.promoProjects, val => { selected.value = [...val] })
 </script>

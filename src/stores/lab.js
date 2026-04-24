@@ -1,8 +1,21 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import { LAS_VEGAS_DATA } from '@/data/presets.js'
+import { getLasVegasData } from '@/data/presets.js'
+import { translations } from '@/data/translations.js'
 
 const STORAGE_KEY = 'magikidLabAssistant'
+
+function getCurrentLang() {
+  try {
+    return localStorage.getItem('magikidLabLang') || 'zh'
+  } catch {
+    return 'zh'
+  }
+}
+
+function tr(key, lang = getCurrentLang()) {
+  return translations[lang]?.[key] ?? translations.zh[key] ?? ''
+}
 
 const defaultState = () => ({
   labId: '',
@@ -41,8 +54,8 @@ const defaultState = () => ({
     age15: { count: 10, percent: 10 }
   },
   social: { instagram: '', facebook: '', youtube: '', xiaohongshu: '' },
-  goals: { camp: 30, vexElementary: '1个', vexMiddle: '1个', other: '' },
-  discounts: { type: '课程报名', amount: '20% OFF', valid: '仅限当日' }
+  goals: { camp: 30, vexElementary: tr('defaultTeamCount'), vexMiddle: tr('defaultTeamCount'), other: '' },
+  discounts: { type: tr('defaultDiscountType'), amount: '20% OFF', valid: tr('defaultDiscountValid') }
 })
 
 export const useLabStore = defineStore('lab', {
@@ -90,7 +103,7 @@ export const useLabStore = defineStore('lab', {
 
     loadPreset() {
       // Preserve lab info (from API) and labId — only apply non-lab preset fields
-      const { lab: _lab, ...rest } = LAS_VEGAS_DATA
+      const { lab: _lab, ...rest } = getLasVegasData()
       this.$patch({ ...rest })
       this.saveData()
     },
@@ -201,7 +214,9 @@ export const useLabStore = defineStore('lab', {
     },
     updateChecklistItem(index, text) {
       if (!this.checklistItems) {
-        this.checklistItems = [...DEFAULT_CHECKLIST_ITEMS]
+        const lang = localStorage.getItem('magikidLabLang') || 'zh'
+        const defaults = translations[lang]?.checklistItems || DEFAULT_CHECKLIST_ITEMS
+        this.checklistItems = [...defaults]
       }
       this.checklistItems[index] = text
       this.saveData()
@@ -215,6 +230,26 @@ export const useLabStore = defineStore('lab', {
     saveDiscounts(discounts) { this.discounts = { ...this.discounts, ...discounts }; this.saveData() },
     savePromoProjects(list) { this.promoProjects = list; this.saveData() },
     saveAgeStructure(s) { this.ageStructure = { ...this.ageStructure, ...s }; this.saveData() },
+
+    // Re-translate untouched default values when the UI language changes.
+    migrateLanguageDefaults(newLang) {
+      const otherLang = newLang === 'zh' ? 'en' : 'zh'
+      const isUntouched = (value, key) => value === tr(key, otherLang) || value === tr(key, newLang)
+      let changed = false
+      if (isUntouched(this.goals.vexElementary, 'defaultTeamCount')) {
+        this.goals.vexElementary = tr('defaultTeamCount', newLang); changed = true
+      }
+      if (isUntouched(this.goals.vexMiddle, 'defaultTeamCount')) {
+        this.goals.vexMiddle = tr('defaultTeamCount', newLang); changed = true
+      }
+      if (isUntouched(this.discounts.type, 'defaultDiscountType')) {
+        this.discounts.type = tr('defaultDiscountType', newLang); changed = true
+      }
+      if (isUntouched(this.discounts.valid, 'defaultDiscountValid')) {
+        this.discounts.valid = tr('defaultDiscountValid', newLang); changed = true
+      }
+      if (changed) this.saveData()
+    },
 
     // ---- Lab API init ----
     async initFromLabAPI(labId, { force = false } = {}) {

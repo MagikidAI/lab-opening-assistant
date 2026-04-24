@@ -23,7 +23,7 @@
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('projectName') }}</label>
-          <input class="form-input" type="text" v-model="form.name" placeholder="如：机器人拔河比赛">
+          <input class="form-input" type="text" v-model="form.name" :placeholder="t('projectPlaceholder')">
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('projectType') }}</label>
@@ -36,7 +36,7 @@
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('lead') }}</label>
-          <input class="form-input" type="text" v-model="form.lead" placeholder="负责人姓名">
+          <input class="form-input" type="text" v-model="form.lead" :placeholder="t('leadNamePlaceholder')">
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('duration') }}</label>

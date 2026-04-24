@@ -136,3 +136,32 @@ export const MAGIKID_ACHIEVEMENTS = {
     ]
   }
 }
+
+// ---- Language-aware preset selectors ----
+import {
+  MAGIKID_PROGRAMS_EN,
+  LAS_VEGAS_DATA_EN,
+  MAGIKID_ACHIEVEMENTS_EN
+} from './presets_en.js'
+
+function isEn(lang) {
+  if (lang) return lang === 'en'
+  try {
+    return localStorage.getItem('magikidLabLang') === 'en'
+  } catch {
+    return false
+  }
+}
+
+export function getMagikidPrograms(lang) {
+  return isEn(lang) ? MAGIKID_PROGRAMS_EN : MAGIKID_PROGRAMS
+}
+
+export function getLasVegasData(lang) {
+  return isEn(lang) ? LAS_VEGAS_DATA_EN : LAS_VEGAS_DATA
+}
+
+export function getMagikidAchievements(lang) {
+  return isEn(lang) ? MAGIKID_ACHIEVEMENTS_EN : MAGIKID_ACHIEVEMENTS
+}
+

@@ -30,7 +30,7 @@
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('background') }}</label>
-          <textarea class="form-textarea" v-model="form.background" placeholder="个人背景介绍..."></textarea>
+          <textarea class="form-textarea" v-model="form.background" :placeholder="t('hostBioPlaceholder')"></textarea>
         </div>
         <div class="flex flex-col gap-2">
           <label class="form-label">{{ t('email') }}</label>
