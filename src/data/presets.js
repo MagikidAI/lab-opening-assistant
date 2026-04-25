@@ -153,6 +153,13 @@ function isEn(lang) {
   }
 }
 
+export const LAS_VEGAS_PRESET_LAB_ID = '119'
+
+export function isLasVegasPresetLab(labId) {
+  if (labId == null) return true
+  return String(labId).trim() === LAS_VEGAS_PRESET_LAB_ID
+}
+
 export function getMagikidPrograms(lang) {
   return isEn(lang) ? MAGIKID_PROGRAMS_EN : MAGIKID_PROGRAMS
 }

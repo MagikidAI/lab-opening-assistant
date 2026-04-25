@@ -70,7 +70,7 @@
 import { ref, computed } from 'vue'
 import { useI18n } from '@/composables/useI18n.js'
 import { useLabStore } from '@/stores/lab.js'
-import { getMagikidAchievements } from '@/data/presets.js'
+import { getMagikidAchievements, isLasVegasPresetLab } from '@/data/presets.js'
 
 const emit = defineEmits(['exportPDF'])
 const { t, currentLang, toggleLanguage } = useI18n()
@@ -113,7 +113,9 @@ async function handlePreset() {
     const hashQuery = window.location.hash.split('?')[1]
     if (hashQuery) labId = new URLSearchParams(hashQuery).get('labid')
   }
-  if (labId) {
+  if (isLasVegasPresetLab(labId)) {
+    store.loadPreset(labId)
+  } else if (labId) {
     await store.initFromLabAPI(labId, { force: true })
   } else {
     store.loadPreset()

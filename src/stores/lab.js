@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import { getLasVegasData } from '@/data/presets.js'
+import { getLasVegasData, isLasVegasPresetLab } from '@/data/presets.js'
 import { translations } from '@/data/translations.js'
 
 const STORAGE_KEY = 'magikidLabAssistant'
@@ -101,10 +101,13 @@ export const useLabStore = defineStore('lab', {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.$state))
     },
 
-    loadPreset() {
+    loadPreset(labId = null) {
       // Preserve lab info (from API) and labId — only apply non-lab preset fields
       const { lab: _lab, ...rest } = getLasVegasData()
       this.$patch({ ...rest })
+      if (isLasVegasPresetLab(labId)) {
+        this.labId = labId == null ? '' : String(labId).trim()
+      }
       this.saveData()
     },
 
@@ -253,15 +256,16 @@ export const useLabStore = defineStore('lab', {
 
     // ---- Lab API init ----
     async initFromLabAPI(labId, { force = false } = {}) {
+      const normalizedLabId = String(labId).trim()
       // If we already have saved data for this same labId, just load it and skip the API call
       if (!force) {
         const saved = localStorage.getItem(STORAGE_KEY)
         if (saved) {
           try {
             const parsed = JSON.parse(saved)
-            if (parsed.labId === labId) {
+            if (parsed.labId === normalizedLabId) {
               this.$patch(parsed)
-              console.log('[lab-api] restored saved data for labId:', labId)
+              console.log('[lab-api] restored saved data for labId:', normalizedLabId)
               return
             }
           } catch (e) {
@@ -270,14 +274,22 @@ export const useLabStore = defineStore('lab', {
         }
       }
 
+      if (isLasVegasPresetLab(normalizedLabId)) {
+        this.$patch(defaultState())
+        this.labId = normalizedLabId
+        this.$patch(getLasVegasData())
+        this.saveData()
+        return
+      }
+
       try {
-        const res = await axios.post('https://api.magikidlab.com/lab-opening-assistant/get-lab-info', { labid: labId })
+        const res = await axios.post('https://api.magikidlab.com/lab-opening-assistant/get-lab-info', { labid: normalizedLabId })
         const data = res.data?.result ?? res.data
         console.log('[lab-api] raw:', res.data, '→ using:', data)
         // Reset everything to empty first
         this.$patch(defaultState())
         // Store the labId so we can detect it on next refresh
-        this.labId = labId
+        this.labId = normalizedLabId
         // Then pre-fill lab info from API
         this.lab = {
           name: data.labName || '',
