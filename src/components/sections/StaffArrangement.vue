@@ -13,15 +13,15 @@
     </div>
 
     <!-- Project Leads -->
-    <SubList :title="t('projectLeadTitle')" :items="store.leads" :emptyMsg="t('noLeads')" :addLabel="t('add')"
+    <SubList :title="t('projectLeadTitle')" :items="store.leads" :emptyMsg="t('noLeads')" :addLabel="t('addLeadTitle')"
       @add="openModal('lead')" @edit="(i) => editModal('lead', i)" @delete="(i) => store.deleteLead(i)" />
 
     <!-- Reception -->
-    <SubList :title="t('receptionTitle')" :items="store.reception" :emptyMsg="t('noReception')" :addLabel="t('add')"
+    <SubList :title="t('receptionTitle')" :items="store.reception" :emptyMsg="t('noReception')" :addLabel="t('addReception')"
       @add="openModal('reception')" @edit="(i) => editModal('reception', i)" @delete="(i) => store.deleteReception(i)" style="margin-top: 1.5rem;" />
 
     <!-- VIP -->
-    <SubList :title="t('vipReception')" :items="store.vips" :emptyMsg="t('noVIP')" :addLabel="t('add')"
+    <SubList :title="t('vipReception')" :items="store.vips" :emptyMsg="t('noVIP')" :addLabel="t('addVIP')"
       @add="openModal('vip')" @edit="(i) => editModal('vip', i)" @delete="(i) => store.deleteVIP(i)" style="margin-top: 1.5rem;" />
 
     <!-- Raffle Hosts -->
